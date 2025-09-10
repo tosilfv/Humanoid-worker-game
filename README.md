@@ -17,7 +17,7 @@ Run main.py to start the program.<br />
 ## N.B.
 
 Use arrow keys to control humanoid.<br />
-Humanoid_speed will change to "slow" when set to "default".<br />
+'humanoid_speed' will change to "slow" when set to "default".<br />
 Uncomment self.create_measurement_grid() line to show grid.<br />
 
 ## Changelog
