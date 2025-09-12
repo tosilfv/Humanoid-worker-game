@@ -7,16 +7,16 @@ class Info:
 
     def __init__(self):
         """Initialize the info components."""
-        self.create_info_text()
+        self.__create_info_text()
 
-    def create_info_text(self):
+    def __create_info_text(self):
         """Creates info text."""
-        self.info = turtle.Turtle()
-        self.info.hideturtle()
-        self.info.penup()
-        self.info.color(const.BLACK)
-        self.info.goto(const.INFO_POS_X, const.INFO_POS_Y)
-        self.info.write(
+        self.__info = turtle.Turtle()
+        self.__info.hideturtle()
+        self.__info.penup()
+        self.__info.color(const.BLACK)
+        self.__info.goto(const.INFO_POS_X, const.INFO_POS_Y)
+        self.__info.write(
             "Use arrow keys to control humanoid",
             align="center", font=("Arial", 16, "normal")
             )

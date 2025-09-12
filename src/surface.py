@@ -7,18 +7,18 @@ class Surface:
 
     def __init__(self):
         """Initialize the surface components."""
-        self.create_surface()
+        self.__create_surface()
 
-    def create_surface(self):
+    def __create_surface(self):
         """Creates surface."""
-        self.surface = turtle.Turtle()
-        self.surface.penup()
-        self.surface.setheading(const.SURFACE_HEADING)
-        self.surface.goto(const.SURFACE_POS_X, const.SURFACE_POS_Y)
-        self.surface.speed(0)
-        self.surface.shape(const.SQUARE)
-        self.surface.color(const.BLACK)
-        self.surface.shapesize(
+        self.__surface = turtle.Turtle()
+        self.__surface.penup()
+        self.__surface.setheading(const.SURFACE_HEADING)
+        self.__surface.goto(const.SURFACE_POS_X, const.SURFACE_POS_Y)
+        self.__surface.speed(0)
+        self.__surface.shape(const.SQUARE)
+        self.__surface.color(const.BLACK)
+        self.__surface.shapesize(
             stretch_wid=const.SURFACE_WID,
             stretch_len=const.SURFACE_LEN
             )
