@@ -31,6 +31,7 @@ class Humanoid:
         self.__left_thigh_retracted = True
         self.__right_thigh_extended = True
         self.__right_thigh_retracted = False
+        self.__carries_box = False
         self.move = False
 
         # Direction
@@ -38,10 +39,18 @@ class Humanoid:
         self.right = True
 
     @property
-    def __get_direction_term(self):
-        """Return either 1 or -1 depending on humanoid direction."""
-        self.__direction_term = (-1 * self.left + self.right)
-        return self.__direction_term
+    def __direction_term(self):
+        """Get either 1 or -1 depending on background direction."""
+        return (-1 * self.left + self.right)
+
+    @property
+    def __going_left(self):
+        """Get either CARRY_LEFT or CARRY_RIGHT
+        depending on humanoid direction.
+        """
+        if self.left:
+            return const.CARRY_LEFT
+        return const.CARRY_RIGHT
 
     def create_measurement_grid(self):
         """Creates a grid of segments to which measurements are based on."""
@@ -77,6 +86,10 @@ class Humanoid:
         self.__meas_grid.speed(0)
         self.__meas_grid.shape("classic")
         self.__meas_grid.color(const.RED)
+
+    def carry_box(self):
+        """Pick up box for carrying."""
+        pass
 
     def __initialize_body_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -477,28 +490,15 @@ class Humanoid:
         # Left thigh
         self.__left_thigh.setheading(self.__left_thigh_angle)
 
-        # Right thigh
-        self.__right_thigh.setheading(self.__right_thigh_angle)
-
         # Left calf
         self.__left_calf.setheading(self.__left_thigh_angle)
         left_calf_x = const.THIGH_SIZE * self.__get_coord_x(
-            self.__left_thigh_angle + const.CALF_POS_X * self.__get_direction_term
+            self.__left_thigh_angle + const.CALF_POS_X * self.__direction_term
             )
         left_calf_y = const.THIGH_SIZE * self.__get_coord_y(
             self.__left_thigh_angle
             )
         self.__left_calf.goto(left_calf_x, left_calf_y + const.THIGH_POS_Y)
-
-        # Right calf
-        self.__right_calf.setheading(self.__right_thigh_angle)
-        right_calf_x = const.THIGH_SIZE * self.__get_coord_x(
-            self.__right_thigh_angle + const.CALF_POS_X * self.__get_direction_term
-            )
-        right_calf_y = const.THIGH_SIZE * self.__get_coord_y(
-            self.__right_thigh_angle
-            )
-        self.__right_calf.goto(right_calf_x, right_calf_y + const.THIGH_POS_Y)
 
         # Left foot
         self.__left_foot.setheading(self.__left_thigh_angle)
@@ -507,9 +507,22 @@ class Humanoid:
         left_foot_y = -const.FOOT_POS_Y\
             * self.__get_coord_y(self.__left_thigh_angle)
         self.__left_foot.goto(
-            left_foot_x + const.FOOT_POS_X * self.__get_direction_term,
+            left_foot_x + const.FOOT_POS_X * self.__direction_term,
             left_foot_y
             )
+
+        # Right thigh
+        self.__right_thigh.setheading(self.__right_thigh_angle)
+
+        # Right calf
+        self.__right_calf.setheading(self.__right_thigh_angle)
+        right_calf_x = const.THIGH_SIZE * self.__get_coord_x(
+            self.__right_thigh_angle + const.CALF_POS_X * self.__direction_term
+            )
+        right_calf_y = const.THIGH_SIZE * self.__get_coord_y(
+            self.__right_thigh_angle
+            )
+        self.__right_calf.goto(right_calf_x, right_calf_y + const.THIGH_POS_Y)
 
         # Right foot
         self.__right_foot.setheading(self.__right_thigh_angle)
@@ -518,149 +531,237 @@ class Humanoid:
         right_foot_y = -const.FOOT_POS_Y\
             * self.__get_coord_y(self.__right_thigh_angle)
         self.__right_foot.goto(
-            right_foot_x + const.FOOT_POS_X * self.__get_direction_term,
+            right_foot_x + const.FOOT_POS_X * self.__direction_term,
             right_foot_y
             )
 
 
         ## Arm angles
 
-        # Left upper arm
-        self.__left_upperarm.setheading(self.__right_thigh_angle)
+        if self.__carries_box:
+            # Left upper arm
+            self.__left_upperarm.setheading(270)
 
-        # Right upper arm
-        self.__right_upperarm.setheading(self.__left_thigh_angle)
+            # Left forearm
+            self.__left_forearm.setheading(self.__going_left)
+            left_forearm_x = 0
+            left_forearm_y = -40
+            self.__left_forearm.goto(
+                left_forearm_x,
+                left_forearm_y + const.UPPERARM_POS_Y
+                )
 
-        # Left forearm
-        self.__left_forearm.setheading(self.__right_thigh_angle)
-        left_forearm_x = const.UPPERARM_SIZE\
-            * self.__get_coord_x(self.__right_thigh_angle)
-        left_forearm_y = const.UPPERARM_SIZE\
-            * self.__get_coord_y(self.__right_thigh_angle)
-        self.__left_forearm.goto(
-            left_forearm_x,
-            left_forearm_y + const.UPPERARM_POS_Y
-            )
+            # Left hand
+            self.__left_hand.setheading(0)
+            left_hand_x = 30
+            left_hand_y = -38
+            self.__left_hand.goto(
+                left_hand_x * self.__direction_term,
+                left_hand_y + const.UPPERARM_POS_Y
+                )
 
-        # Right forearm
-        self.__right_forearm.setheading(self.__left_thigh_angle)
-        right_forearm_x = const.UPPERARM_SIZE\
-            * self.__get_coord_x(self.__left_thigh_angle)
-        right_forearm_y = const.UPPERARM_SIZE\
-            * self.__get_coord_y(self.__left_thigh_angle)
-        self.__right_forearm.goto(
-            right_forearm_x,
-            right_forearm_y + const.UPPERARM_POS_Y
-            )
+            # Right upper arm
+            self.__right_upperarm.setheading(270)
 
-        # Left hand
-        self.__left_hand.setheading(self.__right_thigh_angle)
-        left_hand_x = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
-            * self.__get_coord_x(self.__right_thigh_angle)
-        left_hand_y = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
-            * self.__get_coord_y(self.__right_thigh_angle)
-        self.__left_hand.goto(
-            left_hand_x + const.HAND_POS_X * self.__get_direction_term,
-            left_hand_y + const.UPPERARM_POS_Y
-            )
+            # Right forearm
+            self.__right_forearm.setheading(self.__going_left)
+            right_forearm_x = 0
+            right_forearm_y = -40
+            self.__right_forearm.goto(
+                right_forearm_x,
+                right_forearm_y + const.UPPERARM_POS_Y
+                )
 
-        # Right hand
-        self.__right_hand.setheading(self.__left_thigh_angle)
-        right_hand_x = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
-            * self.__get_coord_x(self.__left_thigh_angle)
-        right_hand_y = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
-            * self.__get_coord_y(self.__left_thigh_angle)
-        self.__right_hand.goto(
-            right_hand_x + const.HAND_POS_X * self.__get_direction_term,
-            right_hand_y + const.UPPERARM_POS_Y
-            )
+            # Right hand
+            self.__right_hand.setheading(0)
+            right_hand_x = 30
+            right_hand_y = -38
+            self.__right_hand.goto(
+                right_hand_x * self.__direction_term,
+                right_hand_y + const.UPPERARM_POS_Y
+                )
+        else:
+            # Left upper arm
+            self.__left_upperarm.setheading(self.__right_thigh_angle)
+
+            # Left forearm
+            self.__left_forearm.setheading(self.__right_thigh_angle)
+            left_forearm_x = const.UPPERARM_SIZE\
+                * self.__get_coord_x(self.__right_thigh_angle)
+            left_forearm_y = const.UPPERARM_SIZE\
+                * self.__get_coord_y(self.__right_thigh_angle)
+            self.__left_forearm.goto(
+                left_forearm_x,
+                left_forearm_y + const.UPPERARM_POS_Y
+                )
+
+            # Left hand
+            self.__left_hand.setheading(self.__right_thigh_angle)
+            left_hand_x = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
+                * self.__get_coord_x(self.__right_thigh_angle)
+            left_hand_y = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
+                * self.__get_coord_y(self.__right_thigh_angle)
+            self.__left_hand.goto(
+                left_hand_x + const.HAND_POS_X * self.__direction_term,
+                left_hand_y + const.UPPERARM_POS_Y
+                )
+
+            # Right upper arm
+            self.__right_upperarm.setheading(self.__left_thigh_angle)
+
+            # Right forearm
+            self.__right_forearm.setheading(self.__left_thigh_angle)
+            right_forearm_x = const.UPPERARM_SIZE\
+                * self.__get_coord_x(self.__left_thigh_angle)
+            right_forearm_y = const.UPPERARM_SIZE\
+                * self.__get_coord_y(self.__left_thigh_angle)
+            self.__right_forearm.goto(
+                right_forearm_x,
+                right_forearm_y + const.UPPERARM_POS_Y
+                )
+
+            # Right hand
+            self.__right_hand.setheading(self.__left_thigh_angle)
+            right_hand_x = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
+                * self.__get_coord_x(self.__left_thigh_angle)
+            right_hand_y = (const.UPPERARM_SIZE + const.FOREARM_SIZE)\
+                * self.__get_coord_y(self.__left_thigh_angle)
+            self.__right_hand.goto(
+                right_hand_x + const.HAND_POS_X * self.__direction_term,
+                right_hand_y + const.UPPERARM_POS_Y
+                )
 
     def to_start_pos(self):
         """Set limbs to start positions."""
         self.__face.goto(
-            const.FACE_POS_X * self.__get_direction_term,
+            const.FACE_POS_X * self.__direction_term,
             const.FACE_POS_Y
             )
         self.__cranium.goto(
-            const.CRANIUM_POS_X * self.__get_direction_term,
+            const.CRANIUM_POS_X * self.__direction_term,
             const.CRANIUM_POS_Y
             )
         self.__shoulders.goto(
-            const.SHOULDERS_POS_X * self.__get_direction_term,
+            const.SHOULDERS_POS_X * self.__direction_term,
             const.SHOULDERS_POS_Y
             )
         self.__chest.goto(
-            const.CHEST_POS_X * self.__get_direction_term,
+            const.CHEST_POS_X * self.__direction_term,
             const.CHEST_POS_Y
             )
         self.__waist.goto(
-            const.WAIST_POS_X * self.__get_direction_term,
+            const.WAIST_POS_X * self.__direction_term,
             const.WAIST_POS_Y
             )
         self.__pelvis.goto(
-            const.PELVIS_POS_X * self.__get_direction_term,
+            const.PELVIS_POS_X * self.__direction_term,
             const.PELVIS_POS_Y
             )
         self.__left_thigh.goto(
-            const.THIGH_POS_X * self.__get_direction_term,
+            const.THIGH_POS_X * self.__direction_term,
             const.THIGH_POS_Y
             )
         self.__left_thigh.setheading(const.THIGH_HEADING)
         self.__left_calf.goto(
-            const.CALF_POS_X * self.__get_direction_term,
+            const.CALF_POS_X * self.__direction_term,
             const.CALF_POS_Y
             )
         self.__left_calf.setheading(const.CALF_HEADING)
         self.__left_foot.goto(
-            const.FOOT_POS_X * self.__get_direction_term,
+            const.FOOT_POS_X * self.__direction_term,
             const.FOOT_POS_Y
             )
         self.__left_foot.setheading(const.FOOT_HEADING)
         self.__right_thigh.goto(
-            const.THIGH_POS_X * self.__get_direction_term,
+            const.THIGH_POS_X * self.__direction_term,
             const.THIGH_POS_Y
             )
         self.__right_thigh.setheading(const.THIGH_HEADING)
         self.__right_calf.goto(
-            const.CALF_POS_X * self.__get_direction_term,
+            const.CALF_POS_X * self.__direction_term,
             const.CALF_POS_Y
             )
         self.__right_calf.setheading(const.CALF_HEADING)
         self.__right_foot.goto(
-            const.FOOT_POS_X * self.__get_direction_term,
+            const.FOOT_POS_X * self.__direction_term,
             const.FOOT_POS_Y
             )
         self.__right_foot.setheading(const.FOOT_HEADING)
         self.__left_upperarm.goto(
-            const.UPPERARM_POS_X * self.__get_direction_term,
+            const.UPPERARM_POS_X * self.__direction_term,
             const.UPPERARM_POS_Y
             )
-        self.__left_upperarm.setheading(const.UPPERARM_HEADING)
-        self.__left_forearm.goto(
-            const.FOREARM_POS_X * self.__get_direction_term,
-            const.FOREARM_POS_Y
-            )
-        self.__left_forearm.setheading(const.FOREARM_HEADING)
-        self.__left_hand.goto(
-            const.HAND_POS_X * self.__get_direction_term,
-            const.HAND_POS_Y
-            )
-        self.__left_hand.setheading(const.HAND_HEADING)
-        self.__right_upperarm.goto(
-            const.UPPERARM_POS_X * self.__get_direction_term,
-            const.UPPERARM_POS_Y
-            )
-        self.__right_upperarm.setheading(const.UPPERARM_HEADING)
-        self.__right_forearm.goto(
-            const.FOREARM_POS_X * self.__get_direction_term,
-            const.FOREARM_POS_Y
-            )
-        self.__right_forearm.setheading(const.FOREARM_HEADING)
-        self.__right_hand.goto(
-            const.HAND_POS_X * self.__get_direction_term,
-            const.HAND_POS_Y
-            )
-        self.__right_hand.setheading(const.HAND_HEADING)
+
+        ## Carries box
+        if self.__carries_box:
+            # Left upper arm
+            self.__left_upperarm.setheading(270)
+
+            # Left forearm
+            self.__left_forearm.setheading(self.__going_left)
+            left_forearm_x = 0
+            left_forearm_y = -40
+            self.__left_forearm.goto(
+                left_forearm_x,
+                left_forearm_y + const.UPPERARM_POS_Y
+                )
+
+            # Left hand
+            self.__left_hand.setheading(0)
+            left_hand_x = 30
+            left_hand_y = -38
+            self.__left_hand.goto(
+                left_hand_x * self.__direction_term,
+                left_hand_y + const.UPPERARM_POS_Y
+                )
+
+            # Right upper arm
+            self.__right_upperarm.setheading(270)
+
+            # Right forearm
+            self.__right_forearm.setheading(self.__going_left)
+            right_forearm_x = 0
+            right_forearm_y = -40
+            self.__right_forearm.goto(
+                right_forearm_x,
+                right_forearm_y + const.UPPERARM_POS_Y
+                )
+
+            # Right hand
+            self.__right_hand.setheading(0)
+            right_hand_x = 30
+            right_hand_y = -38
+            self.__right_hand.goto(
+                right_hand_x * self.__direction_term,
+                right_hand_y + const.UPPERARM_POS_Y
+                )
+        else:
+            self.__left_upperarm.setheading(const.UPPERARM_HEADING)
+            self.__left_forearm.goto(
+                const.FOREARM_POS_X * self.__direction_term,
+                const.FOREARM_POS_Y
+                )
+            self.__left_forearm.setheading(const.FOREARM_HEADING)
+            self.__left_hand.goto(
+                const.HAND_POS_X * self.__direction_term,
+                const.HAND_POS_Y
+                )
+            self.__left_hand.setheading(const.HAND_HEADING)
+            self.__right_upperarm.goto(
+                const.UPPERARM_POS_X * self.__direction_term,
+                const.UPPERARM_POS_Y
+                )
+            self.__right_upperarm.setheading(const.UPPERARM_HEADING)
+            self.__right_forearm.goto(
+                const.FOREARM_POS_X * self.__direction_term,
+                const.FOREARM_POS_Y
+                )
+            self.__right_forearm.setheading(const.FOREARM_HEADING)
+            self.__right_hand.goto(
+                const.HAND_POS_X * self.__direction_term,
+                const.HAND_POS_Y
+                )
+            self.__right_hand.setheading(const.HAND_HEADING)
 
         ## Set angles to start positions.
         self.__left_thigh_angle = const.THIGH_HEADING

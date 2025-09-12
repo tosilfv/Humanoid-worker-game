@@ -9,6 +9,7 @@ from background import Background
 
 screen = turtle.Screen()
 screen.setup(800, 800)
+screen.title("Humanoid Worker")
 screen.tracer(0)
 screen.listen()
 
@@ -103,6 +104,7 @@ def start():
     wait_for_input()
     humanoid.update_limbs()
     humanoid.to_start_pos()
+    background.update_background()
     screen.update()
     screen.exitonclick()
 

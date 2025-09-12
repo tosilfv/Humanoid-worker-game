@@ -1,6 +1,5 @@
 import turtle
 import constants as const
-from box import Box
 
 class Background:
     """The background humanoid walks in front of."""
@@ -23,79 +22,50 @@ class Background:
         self.__background_regular_pos_x = const.BACKGROUND_REGULAR_POS_X
         self.__background_heavy_pos_x = const.BACKGROUND_HEAVY_POS_X
         self.__background_conveyor_pos_x = const.BACKGROUND_CONVEYOR_POS_X
-        self.__conveyor_belt_pos
-        self.__conveyor_drive_pos
-        self.__conveyor_tail_pos
-        self.__conveyor_lift_pos
-        self.__light_lift_pos
-        self.__regular_lift_pos
-        self.__heavy_lift_pos
 
         # Direction
         self.left = True
         self.right = False
 
     @property
-    def __get_direction_term(self):
-        """Return either 1 or -1 depending on background direction."""
-        self.__direction_term = (-1 * self.left + self.right)
-        return self.__direction_term
+    def __direction_term(self):
+        """Get either 1 or -1 depending on background direction."""
+        return (-1 * self.left + self.right)
 
     @property
-    def __conveyor_belt_pos(self):
-        """Return conveyor belt position."""
-        return self.__conveyor_belt.setposition(
-            self.__background_conveyor_pos_x + const.CONVEYOR_BELT_POS_X,
-            const.CONVEYOR_BELT_POS_Y
-            )
+    def light_lift_pos_x(self):
+        """Get light lift position x."""
+        return self._light_lift.xcor()
 
     @property
-    def __conveyor_drive_pos(self):
-        """Return conveyor drive position."""
-        return self.__conveyor_drive.setposition(
-            self.__background_conveyor_pos_x + const.CONVEYOR_DRIVE_POS_X,
-            const.CONVEYOR_DRIVE_POS_Y
-            )
+    def regular_lift_pos_x(self):
+        """Get regular lift position x."""
+        return self._regular_lift.xcor()
 
     @property
-    def __conveyor_tail_pos(self):
-        """Return conveyor tail position."""
-        return self.__conveyor_tail.setposition(
-            self.__background_conveyor_pos_x + const.CONVEYOR_TAIL_POS_X,
-            const.CONVEYOR_TAIL_POS_Y
-            )
+    def heavy_lift_pos_x(self):
+        """Get heavy lift position x."""
+        return self._heavy_lift.xcor()
 
     @property
-    def __conveyor_lift_pos(self):
-        """Return conveyor lift position."""
-        return self.__conveyor_lift.setposition(
-            self.__background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
-            const.CONVEYOR_LIFT_POS_Y
-            )
+    def conveyor_belt_pos_x(self):
+        """Get conveyor belt position x."""
+        return self._conveyor_belt.xcor()
 
     @property
-    def __light_lift_pos(self):
-        """Return light lift position."""
-        return self.__light_lift.setposition(
-            self.__background_light_pos_x + const.LIGHT_LIFT_POS_X,
-            const.LIGHT_LIFT_POS_Y
-            )
+    def conveyor_drive_pos_x(self):
+        """Get conveyor drive position x."""
+        return self._conveyor_drive.xcor()
 
     @property
-    def __regular_lift_pos(self):
-        """Return regular lift position."""
-        return self.__regular_lift.setposition(
-            self.__background_regular_pos_x + const.REGULAR_LIFT_POS_X,
-            const.REGULAR_LIFT_POS_Y
-            )
+    def conveyor_tail_pos_x(self):
+        """Get conveyor tail position x."""
+        return self._conveyor_tail.xcor()
 
     @property
-    def __heavy_lift_pos(self):
-        """Return heavy lift position."""
-        return self.__heavy_lift.setposition(
-            self.__background_heavy_pos_x + const.HEAVY_LIFT_POS_X,
-            const.HEAVY_LIFT_POS_Y
-            )
+    def conveyor_lift_pos_x(self):
+        """Get conveyor lift position x."""
+        return self._conveyor_lift.xcor()
 
     def __initialize_background_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -190,10 +160,10 @@ class Background:
             )
 
         # Light lift
-        self.__light_lift = turtle.Turtle()
+        self._light_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "light_lift": self.__light_lift
+                "light_lift": self._light_lift
             }
         )
         self.__initialize_background_part(
@@ -228,10 +198,10 @@ class Background:
             )
 
         # Regular lift
-        self.__regular_lift = turtle.Turtle()
+        self._regular_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "regular_lift": self.__regular_lift
+                "regular_lift": self._regular_lift
             }
         )
         self.__initialize_background_part(
@@ -266,10 +236,10 @@ class Background:
             )
 
         # Heavy lift
-        self.__heavy_lift = turtle.Turtle()
+        self._heavy_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "heavy_lift": self.__heavy_lift
+                "heavy_lift": self._heavy_lift
             }
         )
         self.__initialize_background_part(
@@ -304,10 +274,10 @@ class Background:
             )
 
         # Conveyor belt
-        self.__conveyor_belt = turtle.Turtle()
+        self._conveyor_belt = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_belt": self.__conveyor_belt
+                "conveyor_belt": self._conveyor_belt
             }
         )
         self.__initialize_background_part(
@@ -322,10 +292,10 @@ class Background:
         )
 
         # Conveyor drive pulley
-        self.__conveyor_drive = turtle.Turtle()
+        self._conveyor_drive = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_drive": self.__conveyor_drive
+                "conveyor_drive": self._conveyor_drive
             }
         )
         self.__initialize_background_part(
@@ -340,10 +310,10 @@ class Background:
         )
 
         # Conveyor tail pulley
-        self.__conveyor_tail = turtle.Turtle()
+        self._conveyor_tail = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_tail": self.__conveyor_tail
+                "conveyor_tail": self._conveyor_tail
             }
         )
         self.__initialize_background_part(
@@ -358,10 +328,10 @@ class Background:
         )
 
         # Conveyor lift
-        self.__conveyor_lift = turtle.Turtle()
+        self._conveyor_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_lift": self.__conveyor_lift
+                "conveyor_lift": self._conveyor_lift
             }
         )
         self.__initialize_background_part(
@@ -377,20 +347,41 @@ class Background:
 
     def __positions(self):
         """Set the position for each backround part."""
-        self.__background_empty_mid_pos_x += 1 * self.__get_direction_term
-        self.__background_empty_left_pos_x += 1 * self.__get_direction_term
-        self.__background_empty_right_pos_x += 1 * self.__get_direction_term
-        self.__background_light_pos_x += 1 * self.__get_direction_term
-        self.__background_regular_pos_x += 1 * self.__get_direction_term
-        self.__background_heavy_pos_x += 1 * self.__get_direction_term
-        self.__background_conveyor_pos_x += 1 * self.__get_direction_term
-        self.__conveyor_belt_pos
-        self.__conveyor_drive_pos
-        self.__conveyor_tail_pos
-        self.__conveyor_lift_pos
-        self.__light_lift_pos
-        self.__regular_lift_pos
-        self.__heavy_lift_pos
+        self.__background_empty_mid_pos_x += 1 * self.__direction_term
+        self.__background_empty_left_pos_x += 1 * self.__direction_term
+        self.__background_empty_right_pos_x += 1 * self.__direction_term
+        self.__background_light_pos_x += 1 * self.__direction_term
+        self.__background_regular_pos_x += 1 * self.__direction_term
+        self.__background_heavy_pos_x += 1 * self.__direction_term
+        self.__background_conveyor_pos_x += 1 * self.__direction_term
+        self._conveyor_belt.setposition(
+            self.__background_conveyor_pos_x + const.CONVEYOR_BELT_POS_X,
+            const.CONVEYOR_BELT_POS_Y
+            )
+        self._conveyor_drive.setposition(
+            self.__background_conveyor_pos_x + const.CONVEYOR_DRIVE_POS_X,
+            const.CONVEYOR_DRIVE_POS_Y
+            )
+        self._conveyor_tail.setposition(
+            self.__background_conveyor_pos_x + const.CONVEYOR_TAIL_POS_X,
+            const.CONVEYOR_TAIL_POS_Y
+            )
+        self._conveyor_lift.setposition(
+            self.__background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
+            const.CONVEYOR_LIFT_POS_Y
+            )
+        self._light_lift.setposition(
+            self.__background_light_pos_x + const.LIGHT_LIFT_POS_X,
+            const.LIGHT_LIFT_POS_Y
+            )
+        self._regular_lift.setposition(
+            self.__background_regular_pos_x + const.REGULAR_LIFT_POS_X,
+            const.REGULAR_LIFT_POS_Y
+            )
+        self._heavy_lift.setposition(
+            self.__background_heavy_pos_x + const.HEAVY_LIFT_POS_X,
+            const.HEAVY_LIFT_POS_Y
+            )
 
     def __to_start_pos(self):
         """Set background parts to start positions."""        
