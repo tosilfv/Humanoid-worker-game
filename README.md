@@ -24,9 +24,9 @@ Call Humanoid create_measurement_grid() to show grid.<br />
 
 ## Changelog
 
-**[0.0.9] - Sep 10. 2025:**
+**[0.0.9] - Sep 10. 2025:**<br />
 _- Added background._<br />
 
-**[0.0.10] - Sep 12. 2025:**
+**[0.0.10] - Sep 12. 2025:**<br />
 _- Added lifts._<br />
 _- Added boxes._<br />
