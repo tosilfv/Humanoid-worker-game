@@ -163,11 +163,11 @@ class Background:
         self._light_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "light_lift": self._light_lift
+                "_light_lift": self._light_lift
             }
         )
         self.__initialize_background_part(
-            "light_lift",
+            "_light_lift",
             const.LIGHT_LIFT_HEADING,
             const.LIGHT_LIFT_POS_X,
             const.LIGHT_LIFT_POS_Y,
@@ -201,11 +201,11 @@ class Background:
         self._regular_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "regular_lift": self._regular_lift
+                "_regular_lift": self._regular_lift
             }
         )
         self.__initialize_background_part(
-            "regular_lift",
+            "_regular_lift",
             const.REGULAR_LIFT_HEADING,
             const.REGULAR_LIFT_POS_X,
             const.REGULAR_LIFT_POS_Y,
@@ -239,11 +239,11 @@ class Background:
         self._heavy_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "heavy_lift": self._heavy_lift
+                "_heavy_lift": self._heavy_lift
             }
         )
         self.__initialize_background_part(
-            "heavy_lift",
+            "_heavy_lift",
             const.HEAVY_LIFT_HEADING,
             const.HEAVY_LIFT_POS_X,
             const.HEAVY_LIFT_POS_Y,
@@ -277,11 +277,11 @@ class Background:
         self._conveyor_belt = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_belt": self._conveyor_belt
+                "_conveyor_belt": self._conveyor_belt
             }
         )
         self.__initialize_background_part(
-            "conveyor_belt",
+            "_conveyor_belt",
             const.CONVEYOR_BELT_HEADING,
             const.CONVEYOR_BELT_POS_X,
             const.CONVEYOR_BELT_POS_Y,
@@ -295,11 +295,11 @@ class Background:
         self._conveyor_drive = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_drive": self._conveyor_drive
+                "_conveyor_drive": self._conveyor_drive
             }
         )
         self.__initialize_background_part(
-            "conveyor_drive",
+            "_conveyor_drive",
             const.CONVEYOR_DRIVE_HEADING,
             const.CONVEYOR_DRIVE_POS_X,
             const.CONVEYOR_DRIVE_POS_Y,
@@ -313,11 +313,11 @@ class Background:
         self._conveyor_tail = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_tail": self._conveyor_tail
+                "_conveyor_tail": self._conveyor_tail
             }
         )
         self.__initialize_background_part(
-            "conveyor_tail",
+            "_conveyor_tail",
             const.CONVEYOR_TAIL_HEADING,
             const.CONVEYOR_TAIL_POS_X,
             const.CONVEYOR_TAIL_POS_Y,
@@ -331,11 +331,11 @@ class Background:
         self._conveyor_lift = turtle.Turtle()
         self.__background_part.update(
             {
-                "conveyor_lift": self._conveyor_lift
+                "_conveyor_lift": self._conveyor_lift
             }
         )
         self.__initialize_background_part(
-            "conveyor_lift",
+            "_conveyor_lift",
             const.CONVEYOR_LIFT_HEADING,
             const.CONVEYOR_LIFT_POS_X,
             const.CONVEYOR_LIFT_POS_Y,

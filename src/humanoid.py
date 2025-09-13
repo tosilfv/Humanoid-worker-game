@@ -31,7 +31,7 @@ class Humanoid:
         self.__left_thigh_retracted = True
         self.__right_thigh_extended = True
         self.__right_thigh_retracted = False
-        self.__carries_box = False
+        self._carries_box = False
         self.move = False
 
         # Direction
@@ -51,6 +51,16 @@ class Humanoid:
         if self.left:
             return const.CARRY_LEFT
         return const.CARRY_RIGHT
+
+    @property
+    def carries_box(self):
+        """Get carries box boolean value."""
+        return self._carries_box
+
+    @carries_box.setter
+    def carries_box(self, is_carrying):
+        """Set carries box boolean value."""
+        self._carries_box = is_carrying
 
     def create_measurement_grid(self):
         """Creates a grid of segments to which measurements are based on."""
@@ -86,10 +96,6 @@ class Humanoid:
         self.__meas_grid.speed(0)
         self.__meas_grid.shape("classic")
         self.__meas_grid.color(const.RED)
-
-    def carry_box(self):
-        """Pick up box for carrying."""
-        pass
 
     def __initialize_body_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -538,7 +544,7 @@ class Humanoid:
 
         ## Arm angles
 
-        if self.__carries_box:
+        if self._carries_box:
             # Left upper arm
             self.__left_upperarm.setheading(270)
 
@@ -693,7 +699,7 @@ class Humanoid:
             )
 
         ## Carries box
-        if self.__carries_box:
+        if self._carries_box:
             # Left upper arm
             self.__left_upperarm.setheading(270)
 

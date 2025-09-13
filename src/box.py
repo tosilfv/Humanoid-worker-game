@@ -14,11 +14,16 @@ class Box:
             self.__create_regular_box,
             self.__create_heavy_box
             ]
-        self.__random_box = self.__create_random_box()
+        self._box = None
+
+    @property
+    def box(self):
+        """Get box."""
+        return self._box
 
     def new_box(self):
-        """Return new random box."""
-        return self.__random_box
+        """Creates new random box."""
+        self.__create_random_box()
 
     def __create_random_box(self):
         """Creates random box."""
@@ -33,7 +38,7 @@ class Box:
         self.__box_part[part].goto(goto_x, goto_y)
         self.__box_part[part].speed(0)
         self.__box_part[part].shape(shape)
-        self.__box_part[part].color(color)
+        self.__box_part[part].fillcolor(color)
         self.__box_part[part].shapesize(stretch_wid=wid, stretch_len=len)
 
     def __create_light_box(self):
@@ -55,6 +60,7 @@ class Box:
             const.BOX_LIGHT_WID,
             const.BOX_LIGHT_LEN
             )
+        self._box = self.__light_box
 
     def __create_regular_box(self):
         """Creates regular box."""
@@ -75,6 +81,7 @@ class Box:
             const.BOX_REGULAR_WID,
             const.BOX_REGULAR_LEN
             )
+        self._box = self.__regular_box
 
     def __create_heavy_box(self):
         """Creates heavy box."""
@@ -95,3 +102,4 @@ class Box:
             const.BOX_HEAVY_WID,
             const.BOX_HEAVY_LEN
             )
+        self._box = self.__heavy_box

@@ -2,10 +2,12 @@
 
 import turtle
 import time
+import constants as const
 from humanoid import Humanoid
 from info import Info
 from surface import Surface
 from background import Background
+from box import Box
 
 screen = turtle.Screen()
 screen.setup(800, 800)
@@ -47,6 +49,9 @@ def go():
     start_moving()
 
     while humanoid.move:
+        # Carry box
+        if background.conveyor_drive_pos_x == 0:
+            humanoid.carries_box = True
         time.sleep(humanoid.humanoid_speed)
         humanoid.update_limbs()
         background.update_background()
@@ -114,4 +119,9 @@ if __name__ == "__main__":
     background = Background()
     surface = Surface()
     humanoid = Humanoid()
+
+    # box = Box()
+    # box.new_box()
+    # print(box.box.shapesize() == const.BOX_HEAVY_SHAPESIZE)
+
     start()
