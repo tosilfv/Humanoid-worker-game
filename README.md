@@ -30,3 +30,6 @@ _- Added background._<br />
 **[0.0.10] - Sep 12. 2025:**<br />
 _- Added lifts._<br />
 _- Added boxes._<br />
+
+**[0.0.11] - Sep 14. 2025:**<br />
+_- Added lift movement._<br />

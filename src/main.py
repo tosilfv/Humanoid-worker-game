@@ -24,7 +24,6 @@ def stop_moving():
     humanoid.move = False
     humanoid.humanoid_speed = humanoid.move_speed["default"]
     humanoid.to_start_pos()
-    screen.update()
 
 def faster_moving():
     """Change humanoid moving speed to faster."""
@@ -48,14 +47,31 @@ def go():
     """Main loop to keep humanoid moving."""
     start_moving()
 
-    while humanoid.move:
-        # Carry box
-        if background.conveyor_drive_pos_x == 0:
-            humanoid.carries_box = True
-        time.sleep(humanoid.humanoid_speed)
-        humanoid.update_limbs()
-        background.update_background()
-        screen.update()
+    try:
+        while True:
+            # Humanoid carries box
+            if background.conveyor_drive_pos_x == 0:
+                humanoid.carries_box = True
+            time.sleep(humanoid.humanoid_speed)
+            # Humanoid moves
+            if humanoid.move:
+                humanoid.update_limbs()
+                background.update_background()
+            # Light lift moves
+            if background.light_lift_move:
+                background.update_light_lift()
+            # Regular lift moves
+            if background.regular_lift_move:
+                background.update_regular_lift()
+            # Heavy lift moves
+            if background.heavy_lift_move:
+                background.update_heavy_lift()
+            # Conveyor lift moves
+            if background.conveyor_lift_move:
+                background.update_conveyor_lift()
+            screen.update()
+    except Exception:
+        pass
 
 def to_left():
     """Change moving speed or turn to left."""
@@ -70,7 +86,6 @@ def to_left():
         background.right = True
         background.left = False
         humanoid.to_start_pos()
-        screen.update()
     # Faster left
     elif humanoid.move and humanoid.left:
         faster_moving()
@@ -91,7 +106,6 @@ def to_right():
         background.right = False
         background.left = True
         humanoid.to_start_pos()
-        screen.update()
     # Faster right
     elif humanoid.move and humanoid.right:
         faster_moving()

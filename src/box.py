@@ -39,7 +39,10 @@ class Box:
         self.__box_part[part].speed(0)
         self.__box_part[part].shape(shape)
         self.__box_part[part].fillcolor(color)
-        self.__box_part[part].shapesize(stretch_wid=wid, stretch_len=len)
+        self.__box_part[part].shapesize(
+            stretch_wid=wid,
+            stretch_len=len
+            )
 
     def __create_light_box(self):
         """Creates light box."""
