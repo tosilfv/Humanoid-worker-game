@@ -2,12 +2,12 @@
 
 import turtle
 import time
-import constants as const
-from humanoid import Humanoid
-from info import Info
-from surface import Surface
-from background import Background
-from box import Box
+import utils.constants as const
+from components.humanoid import Humanoid
+from components.info import Info
+from components.surface import Surface
+from components.background import Background
+from components.box import Box
 
 screen = turtle.Screen()
 screen.setup(800, 800)
@@ -86,6 +86,7 @@ def to_left():
         background.right = True
         background.left = False
         humanoid.to_start_pos()
+        screen.update()
     # Faster left
     elif humanoid.move and humanoid.left:
         faster_moving()
@@ -106,6 +107,7 @@ def to_right():
         background.right = False
         background.left = True
         humanoid.to_start_pos()
+        screen.update()
     # Faster right
     elif humanoid.move and humanoid.right:
         faster_moving()
@@ -134,8 +136,8 @@ if __name__ == "__main__":
     surface = Surface()
     humanoid = Humanoid()
 
-    # box = Box()
-    # box.new_box()
-    # print(box.box.shapesize() == const.BOX_HEAVY_SHAPESIZE)
+    box = Box()
+    box.new_box()
+    print(box.box.shapesize())
 
     start()
