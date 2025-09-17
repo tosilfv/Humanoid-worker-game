@@ -5,7 +5,6 @@ from utils.utils import direction_term
 class Background:
     """The background humanoid walks in front of."""
 
-
     def __init__(self):
         """Initialize the background components."""
         self.__background_part = {}
@@ -28,16 +27,18 @@ class Background:
             const.BACKGROUND_REGULAR_POS_X
         self.__background_heavy_pos_x =\
             const.BACKGROUND_HEAVY_POS_X
-        self.__background_conveyor_pos_x =\
-            const.BACKGROUND_CONVEYOR_POS_X
         self.__light_lift_pos_y =\
             const.LIGHT_LIFT_POS_Y
         self.__regular_lift_pos_y =\
             const.REGULAR_LIFT_POS_Y
         self.__heavy_lift_pos_y =\
             const.HEAVY_LIFT_POS_Y
-        self.__conveyor_lift_pos_y =\
+
+        self._background_conveyor_pos_x =\
+            const.BACKGROUND_CONVEYOR_POS_X
+        self._conveyor_lift_pos_y =\
             const.CONVEYOR_LIFT_POS_Y
+
         self.light_lift_move = True
         self.regular_lift_move = True
         self.heavy_lift_move = True
@@ -46,34 +47,14 @@ class Background:
         # Direction
         self.left = True
         self.right = False
-        self.light_lift_up = False
+        self.light_lift_up = True
         self.light_lift_down = False
-        self.regular_lift_up = False
+        self.regular_lift_up = True
         self.regular_lift_down = False
-        self.heavy_lift_up = False
+        self.heavy_lift_up = True
         self.heavy_lift_down = False
-        self.conveyor_lift_up = False
+        self.conveyor_lift_up = True
         self.conveyor_lift_down = False
-
-    @property
-    def light_lift_pos_x(self):
-        """Get light lift position x."""
-        return self._light_lift.xcor()
-
-    @property
-    def regular_lift_pos_x(self):
-        """Get regular lift position x."""
-        return self._regular_lift.xcor()
-
-    @property
-    def heavy_lift_pos_x(self):
-        """Get heavy lift position x."""
-        return self._heavy_lift.xcor()
-
-    @property
-    def conveyor_belt_pos_x(self):
-        """Get conveyor belt position x."""
-        return self._conveyor_belt.xcor()
 
     @property
     def conveyor_drive_pos_x(self):
@@ -81,14 +62,16 @@ class Background:
         return self._conveyor_drive.xcor()
 
     @property
-    def conveyor_tail_pos_x(self):
-        """Get conveyor tail position x."""
-        return self._conveyor_tail.xcor()
+    def background_conveyor_pos_x(self):
+        """Get background conveyor lift position x."""
+        # return self._background_conveyor_pos_x
+        return self._conveyor_lift.xcor() - const.CONVEYOR_LIFT_POS_X
 
     @property
-    def conveyor_lift_pos_x(self):
-        """Get conveyor lift position x."""
-        return self._conveyor_lift.xcor()
+    def conveyor_lift_pos_y(self):
+        """Get conveyor lift position y."""
+        # return self._conveyor_lift_pos_y
+        return self._conveyor_lift.ycor()
 
     def __initialize_background_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -374,19 +357,19 @@ class Background:
     def __positions(self):
         """Set the position for each background part."""
         self.__background_empty_mid_pos_x +=\
-            1 * direction_term(self.left, self.right)
+            direction_term(self.left, self.right)
         self.__background_empty_left_pos_x +=\
-            1 * direction_term(self.left, self.right)
+            direction_term(self.left, self.right)
         self.__background_empty_right_pos_x +=\
-            1 * direction_term(self.left, self.right)
+            direction_term(self.left, self.right)
         self.__background_light_pos_x +=\
-            1 * direction_term(self.left, self.right)
+            direction_term(self.left, self.right)
         self.__background_regular_pos_x +=\
-            1 * direction_term(self.left, self.right)
+            direction_term(self.left, self.right)
         self.__background_heavy_pos_x +=\
-            1 * direction_term(self.left, self.right)
-        self.__background_conveyor_pos_x +=\
-            1 * direction_term(self.left, self.right)
+            direction_term(self.left, self.right)
+        self._background_conveyor_pos_x +=\
+            direction_term(self.left, self.right)
 
         self.__background_empty_mid.goto(
             self.__background_empty_mid_pos_x,
@@ -413,7 +396,7 @@ class Background:
             const.BACKGROUND_HEAVY_POS_Y
             )
         self.__background_conveyor.goto(
-            self.__background_conveyor_pos_x,
+            self._background_conveyor_pos_x,
             const.BACKGROUND_CONVEYOR_POS_Y
             )
         self._light_lift.goto(
@@ -429,20 +412,20 @@ class Background:
             self.__heavy_lift_pos_y
             )
         self._conveyor_belt.goto(
-            self.__background_conveyor_pos_x + const.CONVEYOR_BELT_POS_X,
+            self._background_conveyor_pos_x + const.CONVEYOR_BELT_POS_X,
             const.CONVEYOR_BELT_POS_Y
             )
         self._conveyor_drive.goto(
-            self.__background_conveyor_pos_x + const.CONVEYOR_DRIVE_POS_X,
+            self._background_conveyor_pos_x + const.CONVEYOR_DRIVE_POS_X,
             const.CONVEYOR_DRIVE_POS_Y
             )
         self._conveyor_tail.goto(
-            self.__background_conveyor_pos_x + const.CONVEYOR_TAIL_POS_X,
+            self._background_conveyor_pos_x + const.CONVEYOR_TAIL_POS_X,
             const.CONVEYOR_TAIL_POS_Y
             )
         self._conveyor_lift.goto(
-            self.__background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
-            self.__conveyor_lift_pos_y
+            self._background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
+            self._conveyor_lift_pos_y
             )
 
     def __to_start_pos(self):
@@ -490,7 +473,7 @@ class Background:
             const.BACKGROUND_REGULAR_POS_X + term
         self.__background_heavy_pos_x =\
             const.BACKGROUND_HEAVY_POS_X + term
-        self.__background_conveyor_pos_x =\
+        self._background_conveyor_pos_x =\
             const.BACKGROUND_CONVEYOR_POS_X + term
 
     def __to_leftmost_pos(self):
@@ -575,19 +558,19 @@ class Background:
     def update_conveyor_lift(self):
         """Update the position of the conveyor lift."""
         if (self.conveyor_lift_up or self.conveyor_lift_down)\
-            and self.__conveyor_lift_pos_y < const.CONVEYOR_LIFT_MAX_Y + 1:
-            self.__conveyor_lift_pos_y +=\
+            and self._conveyor_lift_pos_y < const.CONVEYOR_LIFT_MAX_Y + 1:
+            self._conveyor_lift_pos_y +=\
                 0.1 * direction_term(
                     self.conveyor_lift_down,
                     self.conveyor_lift_up
                     )
             self._conveyor_lift.goto(
-                self.__background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
-                self.__conveyor_lift_pos_y
+                self._background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
+                self._conveyor_lift_pos_y
             )
-        if self.__conveyor_lift_pos_y >= const.CONVEYOR_LIFT_MAX_Y:
+        if self._conveyor_lift_pos_y >= const.CONVEYOR_LIFT_MAX_Y:
             self.conveyor_lift_up = False
             self.conveyor_lift_down = True
-        if self.__conveyor_lift_pos_y <= const.CONVEYOR_LIFT_MIN_Y:
+        if self._conveyor_lift_pos_y <= const.CONVEYOR_LIFT_MIN_Y:
             self.conveyor_lift_up = False
             self.conveyor_lift_down = False

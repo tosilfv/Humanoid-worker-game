@@ -106,3 +106,11 @@ class Box:
             const.BOX_HEAVY_LEN
             )
         self._box = self.__heavy_box
+
+    def update_box(self, background_conveyor_pos_x, conveyor_lift_pos_y):
+        """Update the position of the box."""
+        # print(conveyor_lift_pos_y)
+        self.box.goto(
+            background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
+            conveyor_lift_pos_y + const.HEAVY_BOX_POS_Y
+        )

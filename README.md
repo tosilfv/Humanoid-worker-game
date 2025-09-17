@@ -33,3 +33,6 @@ _- Added boxes._<br />
 
 **[0.0.11] - Sep 14. 2025:**<br />
 _- Added lift movement._<br />
+
+**[0.0.12] - Sep 16. 2025:**<br />
+_- Added box movement._<br />

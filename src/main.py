@@ -69,6 +69,7 @@ def go():
             # Conveyor lift moves
             if background.conveyor_lift_move:
                 background.update_conveyor_lift()
+                box.update_box(background.background_conveyor_pos_x, background.conveyor_lift_pos_y)
             screen.update()
     except Exception:
         pass
@@ -126,6 +127,7 @@ def start():
     humanoid.update_limbs()
     humanoid.to_start_pos()
     background.update_background()
+    box.update_box(background.background_conveyor_pos_x, background.conveyor_lift_pos_y)
     screen.update()
     screen.exitonclick()
 
@@ -135,7 +137,6 @@ if __name__ == "__main__":
     background = Background()
     surface = Surface()
     humanoid = Humanoid()
-
     box = Box()
     box.new_box()
     print(box.box.shapesize())
