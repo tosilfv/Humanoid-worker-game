@@ -50,9 +50,8 @@ def go():
     try:
         while True:
             # Humanoid carries box
-            if background.conveyor_drive_pos_x == 0:
+            if background.conveyor_drive_xcor == 0:
                 humanoid.carries_box = True
-            time.sleep(humanoid.humanoid_speed)
             # Humanoid moves
             if humanoid.move:
                 humanoid.update_limbs()
@@ -69,7 +68,13 @@ def go():
             # Conveyor lift moves
             if background.conveyor_lift_move:
                 background.update_conveyor_lift()
-                box.update_box(background.background_conveyor_pos_x, background.conveyor_lift_pos_y)
+                # box.update_box(0, 0)
+                box.update_box(
+                    background.conveyor_lift_xcor,
+                    background.conveyor_lift_ycor
+                    )
+
+            time.sleep(humanoid.humanoid_speed)
             screen.update()
     except Exception:
         pass
@@ -127,7 +132,10 @@ def start():
     humanoid.update_limbs()
     humanoid.to_start_pos()
     background.update_background()
-    box.update_box(background.background_conveyor_pos_x, background.conveyor_lift_pos_y)
+    box.update_box(
+        background.conveyor_lift_xcor,
+        background.conveyor_lift_ycor
+        )
     screen.update()
     screen.exitonclick()
 

@@ -57,20 +57,18 @@ class Background:
         self.conveyor_lift_down = False
 
     @property
-    def conveyor_drive_pos_x(self):
+    def conveyor_drive_xcor(self):
         """Get conveyor drive position x."""
         return self._conveyor_drive.xcor()
 
     @property
-    def background_conveyor_pos_x(self):
+    def conveyor_lift_xcor(self):
         """Get background conveyor lift position x."""
-        # return self._background_conveyor_pos_x
-        return self._conveyor_lift.xcor() - const.CONVEYOR_LIFT_POS_X
+        return self._conveyor_lift.xcor()
 
     @property
-    def conveyor_lift_pos_y(self):
+    def conveyor_lift_ycor(self):
         """Get conveyor lift position y."""
-        # return self._conveyor_lift_pos_y
         return self._conveyor_lift.ycor()
 
     def __initialize_background_part(
@@ -354,7 +352,7 @@ class Background:
             const.CONVEYOR_LIFT_LEN
         )
 
-    def __positions(self):
+    def __to_positions(self):
         """Set the position for each background part."""
         self.__background_empty_mid_pos_x +=\
             direction_term(self.left, self.right)
@@ -493,7 +491,7 @@ class Background:
         elif self.__background_empty_right_pos_x == 0 and self.left:
             self.__to_rightmost_pos()
         else:
-            self.__positions()
+            self.__to_positions()
 
     def update_light_lift(self):
         """Update the position of the light lift."""
@@ -570,7 +568,7 @@ class Background:
             )
         if self._conveyor_lift_pos_y >= const.CONVEYOR_LIFT_MAX_Y:
             self.conveyor_lift_up = False
-            self.conveyor_lift_down = True
+            self.conveyor_lift_down = False
         if self._conveyor_lift_pos_y <= const.CONVEYOR_LIFT_MIN_Y:
             self.conveyor_lift_up = False
             self.conveyor_lift_down = False

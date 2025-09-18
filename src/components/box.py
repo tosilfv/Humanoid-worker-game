@@ -15,11 +15,22 @@ class Box:
             self.__create_heavy_box
             ]
         self._box = None
+        self._box_conv_lift_pos_y = 0
 
     @property
     def box(self):
         """Get box."""
         return self._box
+
+    @property
+    def box_conv_lift_pos_y(self):
+        """Get box y position in conveyor lift according to box size."""
+        return self._box_conv_lift_pos_y
+
+    @box_conv_lift_pos_y.setter
+    def box_conv_lift_pos_y(self, pos_y):
+        """Set box y position in conveyor lift integer value."""
+        self._box_conv_lift_pos_y = pos_y
 
     def new_box(self):
         """Creates new random box."""
@@ -107,10 +118,15 @@ class Box:
             )
         self._box = self.__heavy_box
 
-    def update_box(self, background_conveyor_pos_x, conveyor_lift_pos_y):
+    def update_box(self, conveyor_lift_xcor, conveyor_lift_ycor):
         """Update the position of the box."""
-        # print(conveyor_lift_pos_y)
+        if self.box.shapesize() == const.BOX_LIGHT_SHAPESIZE:
+            self.box_conv_lift_pos_y = const.LIGHT_BOX_POS_Y
+        elif self.box.shapesize() == const.BOX_REGULAR_SHAPESIZE:
+            self.box_conv_lift_pos_y = const.REGULAR_BOX_POS_Y
+        elif self.box.shapesize() == const.BOX_HEAVY_SHAPESIZE:
+            self.box_conv_lift_pos_y = const.HEAVY_BOX_POS_Y
         self.box.goto(
-            background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X,
-            conveyor_lift_pos_y + const.HEAVY_BOX_POS_Y
-        )
+            conveyor_lift_xcor,
+            conveyor_lift_ycor + self.box_conv_lift_pos_y
+            )
