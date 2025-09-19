@@ -49,13 +49,35 @@ def go():
 
     try:
         while True:
-            # Humanoid carries box
-            if background.conveyor_drive_xcor == 0:
+            # Humanoid carries box allowed
+            if ((background.conveyor_drive_xcor >= 0\
+                 and background.conveyor_drive_xcor <= 45)\
+                or (background.conveyor_drive_xcor <= 0\
+                    and background.conveyor_drive_xcor >= -45))\
+                and (background.conveyor_trackpoint.xcor() ==\
+                     background._background_conveyor_pos_x\
+                        + const.CONVEYOR_LIFT_POS_X -500):
                 humanoid.carries_box = True
-            # Humanoid moves
+            # Humanoid carries box left and right
+            if humanoid.carries_box:
+                if humanoid.right:
+                    box.update_box(45, 30)
+                if humanoid.left:
+                    box.update_box(-45, 30)
+            # Humanoid is moving
             if humanoid.move:
                 humanoid.update_limbs()
                 background.update_background()
+            # Humanoid moves right
+            if humanoid.right and background.trackpoint_to_left:
+                background.conveyor_trackpoint_to_left()
+                box.update_box(
+                    background.conveyor_trackpoint.xcor(),
+                    background.conveyor_trackpoint.ycor()
+                    )
+            # Pass if humanoid and trackpoint move to left simultaneously
+            if humanoid.left and background.trackpoint_to_left:
+                pass
             # Light lift moves
             if background.light_lift_move:
                 background.update_light_lift()
@@ -66,12 +88,37 @@ def go():
             if background.heavy_lift_move:
                 background.update_heavy_lift()
             # Conveyor lift moves
-            if background.conveyor_lift_move:
+            if background.conveyor_lift_move and not humanoid.carries_box:
                 background.update_conveyor_lift()
-                # box.update_box(0, 0)
                 box.update_box(
-                    background.conveyor_lift_xcor,
-                    background.conveyor_lift_ycor
+                    background.conveyor_trackpoint.xcor(),
+                    background.conveyor_trackpoint.ycor()
+                    )
+                background.update_conveyor_trackpoint()
+            # Conveyor trackpoint allowed to left
+            if not background.conveyor_lift_move and not background.full_stop:
+                background.trackpoint_to_left = True
+                background.check_if_ready()
+            # Conveyor trackpoint moves to left
+            if background.trackpoint_to_left and not background.full_stop:
+                background.conveyor_trackpoint_to_left()
+                box.update_box(
+                    background.conveyor_trackpoint.xcor(),
+                    background.conveyor_trackpoint.ycor()
+                    )
+            # Conveyor trackpoint stop
+            if not background.conveyor_lift_move\
+                and not background.trackpoint_to_left\
+                    and not humanoid.carries_box:
+                background.full_stop = True
+                background.conveyor_trackpoint.goto(
+                    background._background_conveyor_pos_x\
+                        + const.CONVEYOR_LIFT_POS_X - 500,
+                    background.conveyor_trackpoint.ycor()
+                )
+                box.update_box(
+                    background.conveyor_trackpoint.xcor(),
+                    background.conveyor_trackpoint.ycor()
                     )
 
             time.sleep(humanoid.humanoid_speed)
@@ -144,9 +191,9 @@ if __name__ == "__main__":
     info = Info()
     background = Background()
     surface = Surface()
-    humanoid = Humanoid()
     box = Box()
     box.new_box()
+    humanoid = Humanoid()
     print(box.box.shapesize())
 
     start()

@@ -10,15 +10,37 @@ This is a [Turtle graphics](https://docs.python.org/3/library/turtle.html)
 game.<br />
 You control the humanoid that works in a factory.<br />
 
-## Instructions
+## Background
 
 Program is developed with VSCode and is written in Python language.<br />
 Install VSCode, python 3 and any required libraries.<br />
 Run main.py in the src folder to start the program.<br />
 
+## Instructions
+
+The factory products appear to the pick up point as a crate of three<br />
+different forms via a heavy duty lift.<br />
+The crate can be collected using left and right arrow keys.<br />
+The screen continues infinitely to both directions and crate is<br />
+picked up automatically as is its release to the drop point.<br />
+Different size crates are to be delivered to the corresponding unloading<br />
+platforms where another lift hoists them upstairs beyond the screen view.<br />
+A bigger crate weighs more and slows down the walking speed.
+
+## Ohjeet
+
+Tehtaassa valmistetut tuotteet tulevat noutopisteelle kolmen<br />
+vaihtoehtoisen kollin muodossa tavarahissin kautta.<br />
+Kollin voi noutaa käyttämällä nuolinäppäimiä<br/>
+vasemmalle ja oikealle.<br />
+Kuvaruutu jatkuu molempiin suuntiin loputtomasti ja kollin nosto<br />
+tapahtuu automaattisesti kuten alaslasku lähetyspisteellekin.<br />
+Eri kokoiset kollit toimitetaan eri lastauslaitureille, joissa<br />
+hissi nostaa ne yläkertaan kuvaruudun ulkopuolelle.<br />
+Suurempi kolli painaa enemmän ja hidastaa kävelyvauhtia.
+
 ## N.B.
 
-Use Left and Right arrow keys to control humanoid.<br />
 'humanoid_speed' will change to "slow" when set to "default".<br />
 Call Humanoid create_measurement_grid() to show grid.<br />
 
@@ -35,4 +57,7 @@ _- Added boxes._<br />
 _- Added lift movement._<br />
 
 **[0.0.12] - Sep 16. 2025:**<br />
-_- Added box movement._<br />
+_- Added box movement along y-axis._<br />
+
+**[0.0.13] - Sep 16. 2025:**<br />
+_- Added box movement along x-axis._<br />

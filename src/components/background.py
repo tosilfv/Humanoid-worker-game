@@ -43,6 +43,9 @@ class Background:
         self.regular_lift_move = True
         self.heavy_lift_move = True
         self.conveyor_lift_move = True
+        self.trackpoint_to_left = False
+        self.timer_to_stop = 0
+        self.full_stop = False
 
         # Direction
         self.left = True
@@ -70,6 +73,11 @@ class Background:
     def conveyor_lift_ycor(self):
         """Get conveyor lift position y."""
         return self._conveyor_lift.ycor()
+
+    @property
+    def conveyor_trackpoint(self):
+        """Get conveyor trackpoint."""
+        return self._conveyor_trackpoint
 
     def __initialize_background_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -352,6 +360,24 @@ class Background:
             const.CONVEYOR_LIFT_LEN
         )
 
+        # Conveyor trackpoint
+        self._conveyor_trackpoint = turtle.Turtle()
+        self.__background_part.update(
+            {
+                "_conveyor_trackpoint": self._conveyor_trackpoint
+            }
+        )
+        self.__initialize_background_part(
+            "_conveyor_trackpoint",
+            const.CONVEYOR_TRACKPOINT_HEADING,
+            const.CONVEYOR_TRACKPOINT_POS_X,
+            const.CONVEYOR_TRACKPOINT_POS_Y,
+            const.CIRCLE,
+            const.RED,
+            const.CONVEYOR_TRACKPOINT_WID,
+            const.CONVEYOR_TRACKPOINT_LEN
+        )
+
     def __to_positions(self):
         """Set the position for each background part."""
         self.__background_empty_mid_pos_x +=\
@@ -569,6 +595,29 @@ class Background:
         if self._conveyor_lift_pos_y >= const.CONVEYOR_LIFT_MAX_Y:
             self.conveyor_lift_up = False
             self.conveyor_lift_down = False
+            self.conveyor_lift_move = False
         if self._conveyor_lift_pos_y <= const.CONVEYOR_LIFT_MIN_Y:
             self.conveyor_lift_up = False
             self.conveyor_lift_down = False
+
+    def update_conveyor_trackpoint(self):
+        """Update the position of the conveyor trackpoint."""
+        self.conveyor_trackpoint.goto(
+            self.conveyor_lift_xcor,
+            self.conveyor_lift_ycor
+            )
+
+    def conveyor_trackpoint_to_left(self):
+        """Move the conveyor trackpoint to left."""
+        xcor = self.conveyor_trackpoint.xcor()
+        xcor -= 1
+        self.conveyor_trackpoint.goto(
+            xcor,
+            self.conveyor_lift_ycor
+            )
+
+    def check_if_ready(self):
+        """Check if trackpoint is at box pick up position."""
+        if self.conveyor_trackpoint.xcor() <=\
+            self._background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X - 500:
+            self.trackpoint_to_left = False
