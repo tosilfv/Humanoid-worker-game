@@ -39,25 +39,59 @@ class Background:
         self._conveyor_lift_pos_y =\
             const.CONVEYOR_LIFT_POS_Y
 
-        self.light_lift_move = True
-        self.regular_lift_move = True
-        self.heavy_lift_move = True
+        self.light_lift_move = False
+        self.regular_lift_move = False
+        self.heavy_lift_move = False
         self.conveyor_lift_move = True
         self.trackpoint_to_left = False
         self.timer_to_stop = 0
-        self.full_stop = False
+        self.trackpoint_stop = False
+        self.box_is_hoisted = False
+        self.box_is_delivered = False
+        self.boxes = []
+        self.box_index = 0
 
         # Direction
         self.left = True
         self.right = False
-        self.light_lift_up = True
+        self.light_lift_up = False
         self.light_lift_down = False
-        self.regular_lift_up = True
+        self.regular_lift_up = False
         self.regular_lift_down = False
-        self.heavy_lift_up = True
+        self.heavy_lift_up = False
         self.heavy_lift_down = False
         self.conveyor_lift_up = True
         self.conveyor_lift_down = False
+
+    @property
+    def light_lift(self):
+        """Get light lift."""
+        return self._light_lift
+
+    @property
+    def light_lift_xcor(self):
+        """Get light lift position x."""
+        return self._light_lift.xcor()
+
+    @property
+    def regular_lift(self):
+        """Get regular lift."""
+        return self._regular_lift
+
+    @property
+    def regular_lift_xcor(self):
+        """Get regular lift position x."""
+        return self._regular_lift.xcor()
+
+    @property
+    def heavy_lift(self):
+        """Get heavy lift."""
+        return self._heavy_lift
+
+    @property
+    def heavy_lift_xcor(self):
+        """Get heavy lift position x."""
+        return self._heavy_lift.xcor()
 
     @property
     def conveyor_drive_xcor(self):
@@ -524,7 +558,7 @@ class Background:
         if (self.light_lift_up or self.light_lift_down)\
             and self.__light_lift_pos_y < const.LIGHT_LIFT_MAX_Y + 1:
             self.__light_lift_pos_y +=\
-                0.1 * direction_term(
+                1 * direction_term(
                     self.light_lift_down,
                     self.light_lift_up
                     )
@@ -544,7 +578,7 @@ class Background:
         if (self.regular_lift_up or self.regular_lift_down)\
             and self.__regular_lift_pos_y < const.REGULAR_LIFT_MAX_Y + 1:
             self.__regular_lift_pos_y +=\
-                0.1 * direction_term(
+                1 * direction_term(
                     self.regular_lift_down,
                     self.regular_lift_up
                     )
@@ -564,7 +598,7 @@ class Background:
         if (self.heavy_lift_up or self.heavy_lift_down)\
             and self.__heavy_lift_pos_y < const.HEAVY_LIFT_MAX_Y + 1:
             self.__heavy_lift_pos_y +=\
-                0.1 * direction_term(
+                1 * direction_term(
                     self.heavy_lift_down,
                     self.heavy_lift_up
                     )

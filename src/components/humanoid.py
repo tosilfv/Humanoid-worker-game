@@ -488,6 +488,58 @@ class Humanoid:
         """Get the y coordinate for limbs."""
         return math.sin(math.radians(heading_y))
 
+    def hands_to_carry(self):
+        """Changes hands to carry position."""
+        # Left upper arm
+        self.__left_upperarm.setheading(270)
+        self.__left_upperarm.goto(
+            const.UPPERARM_POS_X * direction_term(self.left, self.right),
+            const.UPPERARM_POS_Y
+        )
+
+        # Left forearm
+        self.__left_forearm.setheading(self.__direction_heading)
+        left_forearm_x = 0
+        left_forearm_y = -40
+        self.__left_forearm.goto(
+            left_forearm_x,
+            left_forearm_y + const.UPPERARM_POS_Y
+            )
+
+        # Left hand
+        self.__left_hand.setheading(0)
+        left_hand_x = 30
+        left_hand_y = -38
+        self.__left_hand.goto(
+            left_hand_x * direction_term(self.left, self.right),
+            left_hand_y + const.UPPERARM_POS_Y
+            )
+
+        # Right upper arm
+        self.__right_upperarm.setheading(270)
+        self.__right_upperarm.goto(
+            const.UPPERARM_POS_X * direction_term(self.left, self.right),
+            const.UPPERARM_POS_Y
+        )
+
+        # Right forearm
+        self.__right_forearm.setheading(self.__direction_heading)
+        right_forearm_x = 0
+        right_forearm_y = -40
+        self.__right_forearm.goto(
+            right_forearm_x,
+            right_forearm_y + const.UPPERARM_POS_Y
+            )
+
+        # Right hand
+        self.__right_hand.setheading(0)
+        right_hand_x = 30
+        right_hand_y = -38
+        self.__right_hand.goto(
+            right_hand_x * direction_term(self.left, self.right),
+            right_hand_y + const.UPPERARM_POS_Y
+            )
+
     def update_limbs(self):
         """Updates the headings of all limbs."""
         self.__headings()
@@ -554,47 +606,7 @@ class Humanoid:
         ## Arm headings
 
         if self._carries_box:
-            # Left upper arm
-            self.__left_upperarm.setheading(270)
-
-            # Left forearm
-            self.__left_forearm.setheading(self.__direction_heading)
-            left_forearm_x = 0
-            left_forearm_y = -40
-            self.__left_forearm.goto(
-                left_forearm_x,
-                left_forearm_y + const.UPPERARM_POS_Y
-                )
-
-            # Left hand
-            self.__left_hand.setheading(0)
-            left_hand_x = 30
-            left_hand_y = -38
-            self.__left_hand.goto(
-                left_hand_x * direction_term(self.left, self.right),
-                left_hand_y + const.UPPERARM_POS_Y
-                )
-
-            # Right upper arm
-            self.__right_upperarm.setheading(270)
-
-            # Right forearm
-            self.__right_forearm.setheading(self.__direction_heading)
-            right_forearm_x = 0
-            right_forearm_y = -40
-            self.__right_forearm.goto(
-                right_forearm_x,
-                right_forearm_y + const.UPPERARM_POS_Y
-                )
-
-            # Right hand
-            self.__right_hand.setheading(0)
-            right_hand_x = 30
-            right_hand_y = -38
-            self.__right_hand.goto(
-                right_hand_x * direction_term(self.left, self.right),
-                right_hand_y + const.UPPERARM_POS_Y
-                )
+            self.hands_to_carry()
         else:
             # Left upper arm
             self.__left_upperarm.setheading(self.__right_thigh_heading)
@@ -713,47 +725,7 @@ class Humanoid:
 
         ## Carries box
         if self._carries_box:
-            # Left upper arm
-            self.__left_upperarm.setheading(270)
-
-            # Left forearm
-            self.__left_forearm.setheading(self.__direction_heading)
-            left_forearm_x = 0
-            left_forearm_y = -40
-            self.__left_forearm.goto(
-                left_forearm_x,
-                left_forearm_y + const.UPPERARM_POS_Y
-                )
-
-            # Left hand
-            self.__left_hand.setheading(0)
-            left_hand_x = 30
-            left_hand_y = -38
-            self.__left_hand.goto(
-                left_hand_x * direction_term(self.left, self.right),
-                left_hand_y + const.UPPERARM_POS_Y
-                )
-
-            # Right upper arm
-            self.__right_upperarm.setheading(270)
-
-            # Right forearm
-            self.__right_forearm.setheading(self.__direction_heading)
-            right_forearm_x = 0
-            right_forearm_y = -40
-            self.__right_forearm.goto(
-                right_forearm_x,
-                right_forearm_y + const.UPPERARM_POS_Y
-                )
-
-            # Right hand
-            self.__right_hand.setheading(0)
-            right_hand_x = 30
-            right_hand_y = -38
-            self.__right_hand.goto(
-                right_hand_x * direction_term(self.left, self.right),
-                right_hand_y + const.UPPERARM_POS_Y
-                )
+            self.hands_to_carry()
         else:
             self.__left_upperarm.setheading(const.UPPERARM_HEADING)
             self.__left_forearm.goto(
