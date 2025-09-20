@@ -58,5 +58,5 @@ _- Added lift movement._<br />
 **[0.0.12] - Sep 16. 2025:**<br />
 _- Added box movement along y-axis._<br />
 
-**[0.0.13] - Sep 16. 2025:**<br />
+**[0.0.13] - Sep 18. 2025:**<br />
 _- Added box movement along x-axis._<br />
