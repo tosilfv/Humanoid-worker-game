@@ -15,37 +15,8 @@ screen.title("Humanoid Worker")
 screen.tracer(0)
 screen.listen()
 
-def start_moving():
-    """Start humanoid moving."""
-    humanoid.move = True
-
-def stop_moving():
-    """Stop humanoid moving."""
-    humanoid.move = False
-    humanoid.humanoid_speed = humanoid.move_speed["default"]
-    humanoid.to_start_pos()
-
-def faster_moving():
-    """Change humanoid moving speed to faster."""
-    if humanoid.humanoid_speed == humanoid.move_speed["default"]:
-        humanoid.humanoid_speed = humanoid.move_speed["slow"]
-    elif humanoid.humanoid_speed == humanoid.move_speed["slow"]:
-        humanoid.humanoid_speed = humanoid.move_speed["normal"]
-    elif humanoid.humanoid_speed == humanoid.move_speed["normal"]:
-        humanoid.humanoid_speed = humanoid.move_speed["fast"]
-
-def slower_moving():
-    """Change humanoid moving speed to slower."""
-    if humanoid.humanoid_speed == humanoid.move_speed["fast"]:
-        humanoid.humanoid_speed = humanoid.move_speed["normal"]
-    elif humanoid.humanoid_speed == humanoid.move_speed["normal"]:
-        humanoid.humanoid_speed = humanoid.move_speed["slow"]
-    elif humanoid.humanoid_speed == humanoid.move_speed["slow"]:
-        stop_moving()
-
 def go():
     """Main loop to keep humanoid moving."""
-    start_moving()
 
     try:
         while True:
@@ -249,32 +220,40 @@ def go():
         print(e)
         # pass
 
-def to_left():
-    """Change moving speed or turn to left."""
-    # Start left
-    if not humanoid.move and humanoid.left:
-        faster_moving()
-        go()
-    # Turn left
-    elif not humanoid.move and humanoid.right:
-        humanoid.right = False
-        humanoid.left = True
-        background.right = True
-        background.left = False
-        humanoid.to_start_pos()
-        screen.update()
-    # Faster left
-    elif humanoid.move and humanoid.left:
-        faster_moving()
-    # Slower right
-    elif humanoid.move and humanoid.right:
-        slower_moving()
+def start_moving():
+    """Start humanoid moving."""
+    humanoid.move = True
+
+def stop_moving():
+    """Stop humanoid moving."""
+    humanoid.move = False
+    humanoid.humanoid_speed = humanoid.move_speed["default"]
+    humanoid.to_start_pos()
+
+def slower_moving():
+    """Change humanoid moving speed to slower."""
+    if humanoid.humanoid_speed == humanoid.move_speed["fast"]:
+        humanoid.humanoid_speed = humanoid.move_speed["normal"]
+    elif humanoid.humanoid_speed == humanoid.move_speed["normal"]:
+        humanoid.humanoid_speed = humanoid.move_speed["slow"]
+    elif humanoid.humanoid_speed == humanoid.move_speed["slow"]:
+        stop_moving()
+
+def faster_moving():
+    """Change humanoid moving speed to faster."""
+    if humanoid.humanoid_speed == humanoid.move_speed["default"]:
+        humanoid.humanoid_speed = humanoid.move_speed["slow"]
+    elif humanoid.humanoid_speed == humanoid.move_speed["slow"]:
+        humanoid.humanoid_speed = humanoid.move_speed["normal"]
+    elif humanoid.humanoid_speed == humanoid.move_speed["normal"]:
+        humanoid.humanoid_speed = humanoid.move_speed["fast"]
 
 def to_right():
     """Change moving speed or turn to right."""
     # Start right
     if not humanoid.move and humanoid.right:
         faster_moving()
+        start_moving()
         go()
     # Turn right
     elif not humanoid.move and humanoid.left:
@@ -291,6 +270,35 @@ def to_right():
     elif humanoid.move and humanoid.left:
         slower_moving()
 
+def to_left():
+    """Change moving speed or turn to left."""
+    # Start left
+    if not humanoid.move and humanoid.left:
+        faster_moving()
+        start_moving()
+        go()
+    # Turn left
+    elif not humanoid.move and humanoid.right:
+        humanoid.right = False
+        humanoid.left = True
+        background.right = True
+        background.left = False
+        humanoid.to_start_pos()
+        screen.update()
+    # Faster left
+    elif humanoid.move and humanoid.left:
+        faster_moving()
+    # Slower right
+    elif humanoid.move and humanoid.right:
+        slower_moving()
+
+def box_to_start():
+    """Send box to start position."""
+    background.boxes[background.box_index].update_box(
+        background.conveyor_lift_xcor,
+        background.conveyor_lift_ycor
+        )
+
 def wait_for_input():
     """Wait for user to press a key."""
     screen.onkeypress(to_left, "Left")
@@ -302,10 +310,7 @@ def start():
     humanoid.update_limbs()
     humanoid.to_start_pos()
     background.update_background()
-    background.boxes[background.box_index].update_box(
-        background.conveyor_lift_xcor,
-        background.conveyor_lift_ycor
-        )
+    box_to_start()
     screen.update()
     screen.exitonclick()
 
@@ -319,5 +324,4 @@ if __name__ == "__main__":
     background.boxes[background.box_index].new_box()
     humanoid = Humanoid()
     print(box.box.shapesize())
-
     start()
