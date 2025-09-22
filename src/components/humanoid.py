@@ -11,10 +11,10 @@ class Humanoid:
         """Initialize the humanoid components."""
         self.__body_part = {}
         self.move_speed = {
-            "default": 0,
-            "slow": 0.01,
-            "normal": 0.005,
-            "fast": 0.001
+            "default": const.DEFAULT,
+            "slow": const.SLOW,
+            "normal": const.NORMAL,
+            "fast": const.FAST
             }
         self.humanoid_speed = self.move_speed["default"]
         self.__create_left_leg()
@@ -32,12 +32,10 @@ class Humanoid:
         self.__right_thigh_heading = const.THIGH_HEADING
         self.__right_thigh_extended = True
         self.__right_thigh_retracted = False
+        self._move = False
+        self._left = False
+        self._right = True
         self._carries_box = False
-        self.move = False
-
-        # Direction
-        self.left = False
-        self.right = True
 
     @property
     def __direction_heading(self):
@@ -45,8 +43,38 @@ class Humanoid:
         direction.
         """
         if self.left:
-            return const.CARRY_LEFT_HEADING
-        return const.CARRY_RIGHT_HEADING
+            return const.CARRY_LEFT_FOREARM_HEADING
+        return const.CARRY_RIGHT_FOREARM_HEADING
+
+    @property
+    def move(self):
+        """Get move boolean value."""
+        return self._move
+
+    @move.setter
+    def move(self, is_moving):
+        """Set move boolean value."""
+        self._move = is_moving
+
+    @property
+    def left(self):
+        """Get left boolean value."""
+        return self._left
+
+    @left.setter
+    def left(self, is_to_left):
+        """Set left boolean value."""
+        self._left = is_to_left
+
+    @property
+    def right(self):
+        """Get right boolean value."""
+        return self._right
+
+    @right.setter
+    def right(self, is_to_right):
+        """Set right boolean value."""
+        self._right = is_to_right
 
     @property
     def carries_box(self):
@@ -100,7 +128,7 @@ class Humanoid:
         self.__body_part[part].penup()
         self.__body_part[part].setheading(heading)
         self.__body_part[part].goto(goto_x, goto_y)
-        self.__body_part[part].speed(0)
+        self.__body_part[part].speed(const.SPEED)
         self.__body_part[part].shape(shape)
         self.__body_part[part].color(color)
         self.__body_part[part].shapesize(
@@ -114,11 +142,11 @@ class Humanoid:
         self.__face = turtle.Turtle()
         self.__body_part.update(
             {
-                "face": self.__face
+                const.NAME_FACE: self.__face
             }
         )
         self.__initialize_body_part(
-            "face",
+            const.NAME_FACE,
             const.FACE_HEADING,
             const.FACE_POS_X,
             const.FACE_POS_Y,
@@ -132,11 +160,11 @@ class Humanoid:
         self.__cranium = turtle.Turtle()
         self.__body_part.update(
             {
-                "cranium": self.__cranium
+                const.NAME_CRANIUM: self.__cranium
             }
         )
         self.__initialize_body_part(
-            "cranium",
+            const.NAME_CRANIUM,
             const.CRANIUM_HEADING,
             const.CRANIUM_POS_X,
             const.CRANIUM_POS_Y,
@@ -152,11 +180,11 @@ class Humanoid:
         self.__shoulders = turtle.Turtle()
         self.__body_part.update(
             {
-                "shoulders": self.__shoulders
+                const.NAME_SHOULDERS: self.__shoulders
             }
         )
         self.__initialize_body_part(
-            "shoulders",
+            const.NAME_SHOULDERS,
             const.SHOULDERS_HEADING,
             const.SHOULDERS_POS_X,
             const.SHOULDERS_POS_Y,
@@ -172,11 +200,11 @@ class Humanoid:
         self.__chest = turtle.Turtle()
         self.__body_part.update(
             {
-                "chest": self.__chest
+                const.NAME_CHEST: self.__chest
             }
         )
         self.__initialize_body_part(
-            "chest",
+            const.NAME_CHEST,
             const.CHEST_HEADING,
             const.CHEST_POS_X,
             const.CHEST_POS_Y,
@@ -192,11 +220,11 @@ class Humanoid:
         self.__waist = turtle.Turtle()
         self.__body_part.update(
             {
-                "waist": self.__waist
+                const.NAME_WAIST: self.__waist
             }
         )
         self.__initialize_body_part(
-            "waist",
+            const.NAME_WAIST,
             const.WAIST_HEADING,
             const.WAIST_POS_X,
             const.WAIST_POS_Y,
@@ -212,11 +240,11 @@ class Humanoid:
         self.__pelvis = turtle.Turtle()
         self.__body_part.update(
             {
-                "pelvis": self.__pelvis
+                const.NAME_PELVIS: self.__pelvis
             }
         )
         self.__initialize_body_part(
-            "pelvis",
+            const.NAME_PELVIS,
             const.PELVIS_HEADING,
             const.PELVIS_POS_X,
             const.PELVIS_POS_Y,
@@ -232,14 +260,14 @@ class Humanoid:
         self.__left_thigh = turtle.Turtle()
         self.__body_part.update(
             {
-                "left_thigh": self.__left_thigh
+                const.NAME_LEFT_THIGH: self.__left_thigh
             }
         )
         self.__initialize_body_part(
-            "left_thigh",
+            const.NAME_LEFT_THIGH,
             const.THIGH_HEADING,
             const.THIGH_POS_X,
-            0,
+            const.THIGH_POS_Y,
             const.ARROW,
             const.GREY,
             const.THIGH_WID,
@@ -250,11 +278,11 @@ class Humanoid:
         self.__left_calf = turtle.Turtle()
         self.__body_part.update(
             {
-                "left_calf": self.__left_calf
+                const.NAME_LEFT_CALF: self.__left_calf
             }
         )
         self.__initialize_body_part(
-            "left_calf",
+            const.NAME_LEFT_CALF,
             const.CALF_HEADING,
             const.THIGH_POS_X,
             -const.THIGH_SIZE,
@@ -268,11 +296,11 @@ class Humanoid:
         self.__left_foot = turtle.Turtle()
         self.__body_part.update(
             {
-                "left_foot": self.__left_foot
+                const.NAME_LEFT_FOOT: self.__left_foot
             }
         )
         self.__initialize_body_part(
-            "left_foot",
+            const.NAME_LEFT_FOOT,
             const.FOOT_HEADING,
             const.THIGH_POS_X,
             -(const.THIGH_SIZE + const.CALF_SIZE) + const.THIGH_POS_Y,
@@ -288,14 +316,14 @@ class Humanoid:
         self.__right_thigh = turtle.Turtle()
         self.__body_part.update(
             {
-                "right_thigh": self.__right_thigh
+                const.NAME_RIGHT_THIGH: self.__right_thigh
             }
         )
         self.__initialize_body_part(
-            "right_thigh",
+            const.NAME_RIGHT_THIGH,
             const.THIGH_HEADING,
             const.THIGH_POS_X,
-            0,
+            const.THIGH_POS_Y,
             const.ARROW,
             const.DARKGREY,
             const.THIGH_WID,
@@ -306,11 +334,11 @@ class Humanoid:
         self.__right_calf = turtle.Turtle()
         self.__body_part.update(
             {
-                "right_calf": self.__right_calf
+                const.NAME_RIGHT_CALF: self.__right_calf
             }
         )
         self.__initialize_body_part(
-            "right_calf",
+            const.NAME_RIGHT_CALF,
             const.CALF_HEADING,
             const.THIGH_POS_X,
             -const.THIGH_SIZE,
@@ -324,11 +352,11 @@ class Humanoid:
         self.__right_foot = turtle.Turtle()
         self.__body_part.update(
             {
-                "right_foot": self.__right_foot
+                const.NAME_RIGHT_FOOT: self.__right_foot
             }
         )
         self.__initialize_body_part(
-            "right_foot",
+            const.NAME_RIGHT_FOOT,
             const.FOOT_HEADING,
             const.THIGH_POS_X,
             -(const.THIGH_SIZE + const.CALF_SIZE) + const.THIGH_POS_Y,
@@ -344,11 +372,11 @@ class Humanoid:
         self.__left_upperarm = turtle.Turtle()
         self.__body_part.update(
             {
-                "left_upperarm": self.__left_upperarm
+                const.NAME_LEFT_UPPERARM: self.__left_upperarm
             }
         )
         self.__initialize_body_part(
-            "left_upperarm",
+            const.NAME_LEFT_UPPERARM,
             const.UPPERARM_HEADING,
             const.UPPERARM_POS_X,
             const.UPPERARM_POS_Y,
@@ -362,11 +390,11 @@ class Humanoid:
         self.__left_forearm = turtle.Turtle()
         self.__body_part.update(
             {
-                "left_forearm": self.__left_forearm
+                const.NAME_LEFT_FOREARM: self.__left_forearm
             }
         )
         self.__initialize_body_part(
-            "left_forearm",
+            const.NAME_LEFT_FOREARM,
             const.FOREARM_HEADING,
             const.UPPERARM_POS_X,
             const.UPPERARM_SIZE + const.UPPERARM_POS_Y,
@@ -380,11 +408,11 @@ class Humanoid:
         self.__left_hand = turtle.Turtle()
         self.__body_part.update(
             {
-                "left_hand": self.__left_hand
+                const.NAME_LEFT_HAND: self.__left_hand
             }
         )
         self.__initialize_body_part(
-            "left_hand",
+            const.NAME_LEFT_HAND,
             const.HAND_HEADING,
             const.UPPERARM_POS_X,
             (const.UPPERARM_SIZE + const.FOREARM_SIZE) + const.UPPERARM_POS_Y,
@@ -400,11 +428,11 @@ class Humanoid:
         self.__right_upperarm = turtle.Turtle()
         self.__body_part.update(
             {
-                "right_upperarm": self.__right_upperarm
+                const.NAME_RIGHT_UPPERARM: self.__right_upperarm
             }
         )
         self.__initialize_body_part(
-            "right_upperarm",
+            const.NAME_RIGHT_UPPERARM,
             const.UPPERARM_HEADING,
             const.UPPERARM_POS_X,
             const.UPPERARM_POS_Y,
@@ -418,11 +446,11 @@ class Humanoid:
         self.__right_forearm = turtle.Turtle()
         self.__body_part.update(
             {
-                "right_forearm": self.__right_forearm
+                const.NAME_RIGHT_FOREARM: self.__right_forearm
             }
         )
         self.__initialize_body_part(
-            "right_forearm",
+            const.NAME_RIGHT_FOREARM,
             const.FOREARM_HEADING,
             const.UPPERARM_POS_X,
             const.UPPERARM_SIZE + const.UPPERARM_POS_Y,
@@ -436,11 +464,11 @@ class Humanoid:
         self.__right_hand = turtle.Turtle()
         self.__body_part.update(
             {
-                "right_hand": self.__right_hand
+                const.NAME_RIGHT_HAND: self.__right_hand
             }
         )
         self.__initialize_body_part(
-            "right_hand",
+            const.NAME_RIGHT_HAND,
             const.HAND_HEADING,
             const.UPPERARM_POS_X,
             (const.UPPERARM_SIZE + const.FOREARM_SIZE) + const.UPPERARM_POS_Y,
@@ -491,7 +519,7 @@ class Humanoid:
     def hands_to_carry(self):
         """Changes hands to carry position."""
         # Left upper arm
-        self.__left_upperarm.setheading(270)
+        self.__left_upperarm.setheading(const.CARRY_UPPERARM_HEADING)
         self.__left_upperarm.goto(
             const.UPPERARM_POS_X * direction_term(self.left, self.right),
             const.UPPERARM_POS_Y
@@ -499,24 +527,23 @@ class Humanoid:
 
         # Left forearm
         self.__left_forearm.setheading(self.__direction_heading)
-        left_forearm_x = 0
-        left_forearm_y = -40
         self.__left_forearm.goto(
-            left_forearm_x,
-            left_forearm_y + const.UPPERARM_POS_Y
+            const.CARRY_LEFT_FOREARM_POS_X,
+            const.CARRY_LEFT_FOREARM_POS_Y + const.UPPERARM_POS_Y
             )
 
         # Left hand
-        self.__left_hand.setheading(0)
-        left_hand_x = 30
-        left_hand_y = -38
+        self.__left_hand.setheading(const.HAND_HEADING)
         self.__left_hand.goto(
-            left_hand_x * direction_term(self.left, self.right),
-            left_hand_y + const.UPPERARM_POS_Y
+            const.CARRY_LEFT_HAND_POS_X * direction_term(
+                self.left,
+                self.right
+                ),
+            const.CARRY_LEFT_HAND_POS_Y + const.UPPERARM_POS_Y
             )
 
         # Right upper arm
-        self.__right_upperarm.setheading(270)
+        self.__right_upperarm.setheading(const.CARRY_UPPERARM_HEADING)
         self.__right_upperarm.goto(
             const.UPPERARM_POS_X * direction_term(self.left, self.right),
             const.UPPERARM_POS_Y
@@ -524,20 +551,19 @@ class Humanoid:
 
         # Right forearm
         self.__right_forearm.setheading(self.__direction_heading)
-        right_forearm_x = 0
-        right_forearm_y = -40
         self.__right_forearm.goto(
-            right_forearm_x,
-            right_forearm_y + const.UPPERARM_POS_Y
+            const.CARRY_RIGHT_FOREARM_POS_X,
+            const.CARRY_RIGHT_FOREARM_POS_Y + const.UPPERARM_POS_Y
             )
 
         # Right hand
-        self.__right_hand.setheading(0)
-        right_hand_x = 30
-        right_hand_y = -38
+        self.__right_hand.setheading(const.HAND_HEADING)
         self.__right_hand.goto(
-            right_hand_x * direction_term(self.left, self.right),
-            right_hand_y + const.UPPERARM_POS_Y
+            const.CARRY_RIGHT_HAND_POS_X * direction_term(
+                self.left,
+                self.right
+                ),
+            const.CARRY_RIGHT_HAND_POS_Y + const.UPPERARM_POS_Y
             )
 
     def update_limbs(self):
@@ -723,7 +749,7 @@ class Humanoid:
             const.UPPERARM_POS_Y
             )
 
-        ## Carries box
+        # Carries box
         if self._carries_box:
             self.hands_to_carry()
         else:

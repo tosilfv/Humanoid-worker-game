@@ -17,6 +17,6 @@ class Info:
         self.__info.color(const.BLACK)
         self.__info.goto(const.INFO_POS_X, const.INFO_POS_Y)
         self.__info.write(
-            "Use Left and Right arrow keys to control humanoid",
-            align="center", font=("Arial", 16, "normal")
+            const.INFO_TEXT,
+            align=const.INFO_ALIGN, font=(const.FONT_NAME, const.FONT_SIZE, const.FONT_TYPE)
             )

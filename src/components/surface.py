@@ -15,7 +15,7 @@ class Surface:
         self.__surface.penup()
         self.__surface.setheading(const.SURFACE_HEADING)
         self.__surface.goto(const.SURFACE_POS_X, const.SURFACE_POS_Y)
-        self.__surface.speed(0)
+        self.__surface.speed(const.SPEED)
         self.__surface.shape(const.SQUARE)
         self.__surface.color(const.BLACK)
         self.__surface.shapesize(
