@@ -3,11 +3,11 @@
 import turtle
 import time
 import utils.constants as const
+from components.background import Background
+from components.box import Box
 from components.humanoid import Humanoid
 from components.info import Info
 from components.surface import Surface
-from components.background import Background
-from components.box import Box
 
 screen = turtle.Screen()
 screen.setup(const.SCREEN_WID, const.SCREEN_HGT)
@@ -27,10 +27,12 @@ def go():
 
     try:
         while True:
+
             # Humanoid moves
             if humanoid.move:
                 humanoid.update_limbs()
                 background.update_background()
+
             # Light lift moves
             if background.light_lift_move:
                 background.update_light_lift()
@@ -40,39 +42,44 @@ def go():
             # Heavy lift moves
             if background.heavy_lift_move:
                 background.update_heavy_lift()
+
             # Trackpoint allowed to left
             if not background.conveyor_lift_move and not humanoid.carries_box:
                 background.trackpoint_left = True
-                background.check_if_ready()
+                background.stop_at_pickup()
+
             # Trackpoint moves to left
             if background.trackpoint_left:
                 background.trackpoint_to_left()
                 box_follows_trackpoint()
                 background.trackpoint_to_left()
                 box_follows_trackpoint()
+
             # Trackpoint stops at conveyor pick up point
             if not background.conveyor_lift_move and not humanoid.carries_box and not background.trackpoint_left:
                 background.trackpoint.goto(
-                    background._background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X,
+                    background.background_conveyor.xcor() + const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X,
                     background.trackpoint.ycor()
                 )
                 box_follows_trackpoint()
+
             # Conveyor lift moves
             if background.conveyor_lift_move and not humanoid.carries_box:
                 background.update_conveyor_lift()
                 box_follows_trackpoint()
                 background.update_trackpoint()
+
             # Humanoid carries box allowed
             if ((background.conveyor_drive.xcor() >= 0 and background.conveyor_drive.xcor() <= 45)\
                 or (background.conveyor_drive.xcor() <= 0 and background.conveyor_drive.xcor() >= -45))\
-                and (background.trackpoint.xcor() == background._background_conveyor_pos_x + const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X):
+                and (background.trackpoint.xcor() == background.background_conveyor.xcor() + const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X):
                 if humanoid.move:
                     humanoid.carries_box = True
                     background.conveyor_lift_up = False
                     background.conveyor_lift_down = True
+
             # Humanoid carries box left and right
             if humanoid.carries_box:
-                background.trackpoint_stop = False
                 background.trackpoint_left = False
                 background.update_conveyor_lift()
                 # Hide trackpoint
@@ -97,6 +104,7 @@ def go():
                         background.boxes[background.box_index].update_box(45, 30)
                     if humanoid.left:
                         background.boxes[background.box_index].update_box(-45, 30)
+
                 # Light lift hoist
                 if background.boxes[background.box_index].box.shapesize() == const.BOX_LIGHT_SHAPESIZE and background.light_lift.xcor() == 0:
                     humanoid.carries_box = False
@@ -115,6 +123,7 @@ def go():
                     background.heavy_lift_move = True
                     background.heavy_lift_up = True
                     background.box_is_hoisted = True
+
             # Box in light lift
             if not humanoid.carries_box and background.light_lift_move and background.light_lift_up and background.box_is_hoisted:
                 # Box above screen
@@ -261,7 +270,7 @@ def start():
     screen.update()
     screen.exitonclick()
 
-# Create and run the game
+# Run the game
 if __name__ == "__main__":
     info = Info()
     background = Background()
@@ -270,5 +279,4 @@ if __name__ == "__main__":
     background.boxes.append(box)
     background.boxes[background.box_index].new_box()
     humanoid = Humanoid()
-    print(box.box.shapesize())
     start()

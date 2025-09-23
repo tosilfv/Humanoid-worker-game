@@ -22,10 +22,6 @@ class Box:
 
     def new_box(self):
         """Creates new random box."""
-        self.__create_random_box()
-
-    def __create_random_box(self):
-        """Creates random box."""
         choice(self.__boxes)()
 
     def __initialize_box_part(

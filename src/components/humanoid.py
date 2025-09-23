@@ -4,7 +4,7 @@ import utils.constants as const
 from utils.utils import direction_term
 
 class Humanoid:
-    """A simple animated humanoid using turtle graphics."""
+    """An animated humanoid using turtle graphics."""
 
 
     def __init__(self):
@@ -16,7 +16,6 @@ class Humanoid:
             "normal": const.NORMAL,
             "fast": const.FAST
             }
-        self.humanoid_speed = self.move_speed["default"]
         self.__create_left_leg()
         self.__create_left_arm()
         self.__create_head()
@@ -32,6 +31,7 @@ class Humanoid:
         self.__right_thigh_heading = const.THIGH_HEADING
         self.__right_thigh_extended = True
         self.__right_thigh_retracted = False
+        self._humanoid_speed = self.move_speed["default"]
         self._move = False
         self._left = False
         self._right = True
@@ -45,6 +45,16 @@ class Humanoid:
         if self.left:
             return const.CARRY_LEFT_FOREARM_HEADING
         return const.CARRY_RIGHT_FOREARM_HEADING
+
+    @property
+    def humanoid_speed(self):
+        """Get humanoid speed."""
+        return self._humanoid_speed
+
+    @humanoid_speed.setter
+    def humanoid_speed(self, speed):
+        """Set humanoid speed value."""
+        self._humanoid_speed = speed
 
     @property
     def move(self):
