@@ -1,6 +1,6 @@
 import turtle
 import utils.constants as const
-from utils.utils import direction_term
+from utils.helpers import direction_term
 
 class Background:
     """The background humanoid walks in front of."""
@@ -32,8 +32,7 @@ class Background:
         self.trackpoint_left = False
         self.box_is_hoisted = False
         self.box_is_delivered = False
-        self.box_index = const.BOX_INDEX
-        self.boxes = []
+        self._is_conveyor_lift_up = False
 
     @property
     def background_empty_mid(self):
@@ -109,6 +108,16 @@ class Background:
     def trackpoint(self):
         """Get trackpoint."""
         return self._trackpoint
+
+    @property
+    def is_conveyor_lift_up(self):
+        """Get is conveyor lift up boolean value."""
+        return self._is_conveyor_lift_up
+
+    @is_conveyor_lift_up.setter
+    def is_conveyor_lift_up(self, val):
+        """Set is conveyor lift up boolean value."""
+        self._is_conveyor_lift_up = val
 
     def __initialize_background_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -662,3 +671,18 @@ class Background:
             self.background_conveyor.xcor() + const.CONVEYOR_LIFT_POS_X\
                 + const.BOX_PICKUP_POS_X:
             self.trackpoint_left = False
+
+    def conveyor_lift_to_up(self):
+        """Move conveyor lift up."""
+        __adjust_x = self.background_conveyor.xcor()\
+                        + const.CONVEYOR_LIFT_POS_X
+        __adjust_y = self.conveyor_lift.ycor()
+        # Stop at top position
+        if __adjust_y >= const.CONVEYOR_LIFT_MAX_Y:
+            self.is_conveyor_lift_up = True
+        else:
+            __adjust_y += const.CONVEYOR_LIFT_SPEED
+            self.conveyor_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )

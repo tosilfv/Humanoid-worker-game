@@ -1,0 +1,82 @@
+import utils.constants as const
+
+class Game:
+    """Controls of the game."""
+
+
+    def __init__(self):
+        """Initialize the game control variables."""
+        self._game_on = False
+        self._create_box = False
+        self._created_box = False
+        self._conveyor_lift_up = False
+        self._box_left = False
+        self._ready_pickup = False
+        self._exit_message = const.EXIT_MESSAGE
+        self.box_index = const.BOX_INDEX
+        self.boxes = []
+
+    @property
+    def game_on(self):
+        """Get game on boolean value."""
+        return self._game_on
+
+    @game_on.setter
+    def game_on(self, val):
+        """Set game on boolean value."""
+        self._game_on = val
+
+    @property
+    def create_box(self):
+        """Get create box boolean value."""
+        return self._create_box
+
+    @create_box.setter
+    def create_box(self, val):
+        """Set create box boolean value."""
+        self._create_box = val
+
+    @property
+    def created_box(self):
+        """Get created box boolean value."""
+        return self._created_box
+
+    @created_box.setter
+    def created_box(self, val):
+        """Set created box boolean value."""
+        self._created_box = val
+
+    @property
+    def conveyor_lift_up(self):
+        """Get conveyor lift up boolean value."""
+        return self._conveyor_lift_up
+
+    @conveyor_lift_up.setter
+    def conveyor_lift_up(self, val):
+        """Set conveyor lift up boolean value."""
+        self._conveyor_lift_up = val
+
+    @property
+    def box_left(self):
+        """Get box left boolean value."""
+        return self._box_left
+
+    @box_left.setter
+    def box_left(self, val):
+        """Set box left boolean value."""
+        self._box_left = val
+
+    @property
+    def ready_pickup(self):
+        """Get box ready for pick up boolean value."""
+        return self._ready_pickup
+
+    @ready_pickup.setter
+    def ready_pickup(self, val):
+        """Set box ready for pick up boolean value."""
+        self._ready_pickup = val
+
+    @property
+    def exit_message(self):
+        """Get exit message."""
+        return self._exit_message

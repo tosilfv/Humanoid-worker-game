@@ -1,7 +1,7 @@
 import turtle
 import math
 import utils.constants as const
-from utils.utils import direction_term
+from utils.helpers import direction_term
 
 class Humanoid:
     """An animated humanoid using turtle graphics."""

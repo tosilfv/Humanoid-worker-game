@@ -1,5 +1,6 @@
 import turtle
 import utils.constants as const
+from utils.helpers import direction_term
 from random import choice
 
 class Box:
@@ -14,11 +15,22 @@ class Box:
             self.__create_regular_box,
             self.__create_heavy_box
             ]
+        self.is_box_pickup = False
 
     @property
     def box(self):
         """Get box."""
         return self._box
+
+    @property
+    def is_box_pickup(self):
+        """Get is box pick up boolean value."""
+        return self._is_box_pickup
+
+    @is_box_pickup.setter
+    def is_box_pickup(self, val):
+        """Set is box pick up boolean value."""
+        self._is_box_pickup = val
 
     def new_box(self):
         """Creates new random box."""
@@ -115,3 +127,27 @@ class Box:
             goto_x,
             goto_y + __adjust_y
             )
+
+    def box_to_left(self, hum_to_right):
+        """Move box left."""
+        __adjust_x = self.box.xcor()
+        __adjust_y = self.box.ycor()
+        # Stop at pick up position
+        if __adjust_x == const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X:
+            self.is_box_pickup = True
+        else:
+            __adjust_x += const.BOX_LEFT_SPEED\
+                            + direction_term(hum_to_right, const.ZERO)
+            self.box.goto(
+                __adjust_x,
+                __adjust_y
+            )
+
+    def box_pickup(self, pos):
+        """Box is at pick up position."""
+        __adjust_x = pos + const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X
+        __adjust_y = self.box.ycor()
+        self.box.goto(
+            __adjust_x,
+            __adjust_y
+        )
