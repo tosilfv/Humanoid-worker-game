@@ -39,7 +39,7 @@ class Background:
         self._is_heavy_lift_up = False
         self._is_heavy_lift_down = False
         self._is_conveyor_lift_up = False
-        self._is_conveyor_lift_down = False
+        self._is_conveyor_lift_down = True
 
     @property
     def background_empty_mid(self):

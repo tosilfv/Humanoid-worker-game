@@ -6,6 +6,42 @@ class Game:
 
     def __init__(self):
         """Initialize the game control variables."""
+        self._box_carry_positions = {
+            const.CONST_LIGHT: {
+                const.CONST_X: const.LIGHT_BOX_POS_X,
+                const.CONST_Y: const.LIGHT_BOX_POS_Y
+            },
+            const.CONST_REGULAR: {
+                const.CONST_X: const.REGULAR_BOX_POS_X,
+                const.CONST_Y: const.REGULAR_BOX_POS_Y
+            },
+            const.CONST_HEAVY: {
+                const.CONST_X: const.HEAVY_BOX_POS_X,
+                const.CONST_Y: const.HEAVY_BOX_POS_Y
+            }
+        }
+        self._box_transport_positions = {
+            const.CONST_LIGHT: {
+                const.CONST_X: const.TRANSPORT_X,
+                const.CONST_Y: const.LIGHT_TRANSPORT_Y
+            },
+            const.CONST_REGULAR: {
+                const.CONST_X: const.TRANSPORT_X,
+                const.CONST_Y: const.REGULAR_TRANSPORT_Y
+            },
+            const.CONST_HEAVY: {
+                const.CONST_X: const.TRANSPORT_X,
+                const.CONST_Y: const.HEAVY_TRANSPORT_Y
+            }
+        }
+        self._box_shape = ""
+        self._box_carry_pos_x = 0
+        self._box_carry_pos_y = 0
+        self._box_trans_pos_x = 0
+        self._box_trans_pos_y = 0
+        self._boxes = []
+        self._box_index = const.BOX_INDEX
+        self._exit_message = const.EXIT_MESSAGE
         self._game_on = False
         self._create_box = False
         self._created_box = False
@@ -23,9 +59,101 @@ class Game:
         self._box_in_light_lift = False
         self._box_in_regular_lift = False
         self._box_in_heavy_lift = False
-        self._exit_message = const.EXIT_MESSAGE
-        self.box_index = const.BOX_INDEX
-        self.boxes = []
+
+    @property
+    def box_carry_positions(self):
+        """Get box carry positions."""
+        return self._box_carry_positions
+
+    @box_carry_positions.setter
+    def box_carry_positions(self, val):
+        """Set box carry positions value."""
+        self._box_carry_positions = val
+
+    @property
+    def box_transport_positions(self):
+        """Get box transport positions."""
+        return self._box_transport_positions
+
+    @box_transport_positions.setter
+    def box_transport_positions(self, val):
+        """Set box transport positions value."""
+        self._box_transport_positions = val
+
+    @property
+    def box_shape(self):
+        """Get box shape value."""
+        return self._box_shape
+
+    @box_shape.setter
+    def box_shape(self, val):
+        """Set box shape value."""
+        self._box_shape = val
+
+    @property
+    def box_carry_pos_x(self):
+        """Get box carry position x value."""
+        return self._box_carry_pos_x
+
+    @box_carry_pos_x.setter
+    def box_carry_pos_x(self, val):
+        """Set box carry position x value."""
+        self._box_carry_pos_x = val
+
+    @property
+    def box_carry_pos_y(self):
+        """Get box carry position y value."""
+        return self._box_carry_pos_y
+
+    @box_carry_pos_y.setter
+    def box_carry_pos_y(self, val):
+        """Set box carry position y value."""
+        self._box_carry_pos_y = val
+
+    @property
+    def box_trans_pos_x(self):
+        """Get box trans position x value."""
+        return self._box_trans_pos_x
+
+    @box_trans_pos_x.setter
+    def box_trans_pos_x(self, val):
+        """Set box trans position x value."""
+        self._box_trans_pos_x = val
+
+    @property
+    def box_trans_pos_y(self):
+        """Get box trans position y value."""
+        return self._box_trans_pos_y
+
+    @box_trans_pos_y.setter
+    def box_trans_pos_y(self, val):
+        """Set box trans position y value."""
+        self._box_trans_pos_y = val
+
+    @property
+    def boxes(self):
+        """Get boxes."""
+        return self._boxes
+
+    @boxes.setter
+    def boxes(self, val):
+        """Set boxes value."""
+        self._boxes = val
+
+    @property
+    def box_index(self):
+        """Get box index."""
+        return self._box_index
+
+    @box_index.setter
+    def box_index(self, val):
+        """Set box index value."""
+        self._box_index = val
+
+    @property
+    def exit_message(self):
+        """Get exit message."""
+        return self._exit_message
 
     @property
     def game_on(self):
@@ -196,8 +324,3 @@ class Game:
     def box_in_heavy_lift(self, val):
         """Set box in heavy lift boolean value."""
         self._box_in_heavy_lift = val
-
-    @property
-    def exit_message(self):
-        """Get exit message."""
-        return self._exit_message
