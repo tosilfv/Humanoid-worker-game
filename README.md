@@ -2,7 +2,7 @@
 
 ## Video
 
-![Video](video.gif)
+![Video](video_2.gif)
 
 ## Description
 
