@@ -128,12 +128,12 @@ class Box:
             goto_y + __adjust_y
             )
 
-    def box_to_left(self, hum_to_right):
+    def box_to_left(self, pos, hum_to_right):
         """Move box left."""
         __adjust_x = self.box.xcor()
         __adjust_y = self.box.ycor()
         # Stop at pick up position
-        if __adjust_x == const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X:
+        if __adjust_x < pos or __adjust_x < const.BOX_PICKUP_POS_X:
             self.is_box_pickup = True
         else:
             __adjust_x += const.BOX_LEFT_SPEED\
@@ -145,7 +145,8 @@ class Box:
 
     def box_pickup(self, pos):
         """Box is at pick up position."""
-        __adjust_x = pos + const.CONVEYOR_LIFT_POS_X + const.BOX_PICKUP_POS_X
+        self.is_box_pickup = False
+        __adjust_x = pos
         __adjust_y = self.box.ycor()
         self.box.goto(
             __adjust_x,

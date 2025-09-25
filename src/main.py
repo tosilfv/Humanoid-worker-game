@@ -115,6 +115,7 @@ def create_crate():
     """Create a new crate."""
     box = Box()
     game.boxes.append(box)
+    game.box_index += 1
     game.boxes[game.box_index].new_box()
     game.create_box = False
     game.created_box = True
@@ -136,7 +137,7 @@ def run():
             if humanoid.move:
                 animate_humanoid_move()
 
-            if game.create_box:
+            if game.create_box and not game.carrying_box:
                 if enter_factory():
                     create_crate()
 
@@ -153,21 +154,159 @@ def run():
                 game.box_left = True
 
             if game.box_left:
-                game.boxes[game.box_index].box_to_left(humanoid.right)
+                game.boxes[game.box_index].box_to_left(
+                    background.conveyor_drive.xcor(),
+                    humanoid.right
+                )
                 if game.boxes[game.box_index].is_box_pickup:
                     game.box_left = False
+                    game.conveyor_lift_down = True
                     game.ready_pickup = True
+
+            if game.conveyor_lift_down:
+                background.conveyor_lift_to_down()
+
+            if background.is_conveyor_lift_down:
+                game.conveyor_lift_down = False
 
             if game.ready_pickup:
                 game.boxes[game.box_index].box_pickup(
-                    background.background_conveyor.xcor()
+                    background.conveyor_drive.xcor()
+                )
+                if game.boxes[game.box_index].box.xcor() == 0:
+                    game.ready_pickup = False
+                    game.carrying_box = True
+
+            if game.carrying_box:
+                humanoid.hands_to_carry()
+                if game.boxes[game.box_index].box.shapesize() == const.BOX_LIGHT_SHAPESIZE:
+                    if humanoid.right:
+                        game.boxes[game.box_index].box.goto(
+                            const.LIGHT_BOX_POS_X,
+                            const.LIGHT_BOX_POS_Y
+                        )
+                    if humanoid.left:
+                        game.boxes[game.box_index].box.goto(
+                            -const.LIGHT_BOX_POS_X,
+                            const.LIGHT_BOX_POS_Y
+                        )
+                    if background.light_lift.xcor() == 0:
+                        game.carrying_box = False
+                        game.box_in_light_lift = True
+                        game.light_lift_up = True
+
+                if game.boxes[game.box_index].box.shapesize() == const.BOX_REGULAR_SHAPESIZE:
+                    if humanoid.right:
+                        game.boxes[game.box_index].box.goto(
+                            const.REGULAR_BOX_POS_X,
+                            const.REGULAR_BOX_POS_Y
+                        )
+                    if humanoid.left:
+                        game.boxes[game.box_index].box.goto(
+                            -const.REGULAR_BOX_POS_X,
+                            const.REGULAR_BOX_POS_Y
+                        )
+                    if background.regular_lift.xcor() == 0:
+                        game.carrying_box = False
+                        game.box_in_regular_lift = True
+                        game.regular_lift_up = True
+
+                if game.boxes[game.box_index].box.shapesize() == const.BOX_HEAVY_SHAPESIZE:
+                    if humanoid.right:
+                        game.boxes[game.box_index].box.goto(
+                            const.HEAVY_BOX_POS_X,
+                            const.HEAVY_BOX_POS_Y
+                        )
+                    if humanoid.left:
+                        game.boxes[game.box_index].box.goto(
+                            -const.HEAVY_BOX_POS_X,
+                            const.HEAVY_BOX_POS_Y
+                        )
+                    if background.heavy_lift.xcor() == 0:
+                        game.carrying_box = False
+                        game.box_in_heavy_lift = True
+                        game.heavy_lift_up = True
+
+            if game.box_in_light_lift:
+                game.boxes[game.box_index].box.goto(
+                    background.light_lift.xcor(),
+                    background.light_lift.ycor() + const.LIGHT_TRANSPORT_Y
                 )
 
+            if game.box_in_regular_lift:
+                game.boxes[game.box_index].box.goto(
+                    background.regular_lift.xcor(),
+                    background.regular_lift.ycor() + const.REGULAR_TRANSPORT_Y
+                )
+
+            if game.box_in_heavy_lift:
+                game.boxes[game.box_index].box.goto(
+                    background.heavy_lift.xcor(),
+                    background.heavy_lift.ycor() + const.HEAVY_TRANSPORT_Y
+                )
+
+            if game.light_lift_up:
+                background.light_lift_to_up()
+
+            if game.regular_lift_up:
+                background.regular_lift_to_up()
+
+            if game.heavy_lift_up:
+                background.heavy_lift_to_up()
+
+            if background.is_light_lift_up:
+                game.boxes[game.box_index].box.goto(
+                    background.light_lift.xcor(),
+                    const.LIGHT_LIFT_MAX_Y
+                )
+                game.box_in_light_lift = False
+                game.light_lift_up = False
+                game.light_lift_down = True
+
+            if game.light_lift_down:
+                background.light_lift_to_down()
+
+            if background.is_light_lift_down and not game.carrying_box:
+                game.light_lift_down = False
+                game.create_box = True
+
+            if background.is_regular_lift_up:
+                game.boxes[game.box_index].box.goto(
+                    background.regular_lift.xcor(),
+                    const.REGULAR_LIFT_MAX_Y
+                )
+                game.box_in_regular_lift = False
+                game.regular_lift_up = False
+                game.regular_lift_down = True
+
+            if game.regular_lift_down:
+                background.regular_lift_to_down()
+
+            if background.is_regular_lift_down and not game.carrying_box:
+                game.regular_lift_down = False
+                game.create_box = True
+
+            if background.is_heavy_lift_up:
+                game.boxes[game.box_index].box.goto(
+                    background.heavy_lift.xcor(),
+                    const.HEAVY_LIFT_MAX_Y
+                )
+                game.box_in_heavy_lift = False
+                game.heavy_lift_up = False
+                game.heavy_lift_down = True
+
+            if game.heavy_lift_down:
+                background.heavy_lift_to_down()
+
+            if background.is_heavy_lift_down and not game.carrying_box:
+                game.heavy_lift_down = False
+                game.create_box = True
+ 
             time.sleep(humanoid.humanoid_speed)
             screen.update()
 
-    except Exception:
-        pass
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
     game = Game()

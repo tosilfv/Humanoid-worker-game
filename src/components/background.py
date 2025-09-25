@@ -32,7 +32,14 @@ class Background:
         self.trackpoint_left = False
         self.box_is_hoisted = False
         self.box_is_delivered = False
+        self._is_light_lift_up = False
+        self._is_light_lift_down = False
+        self._is_regular_lift_up = False
+        self._is_regular_lift_down = False
+        self._is_heavy_lift_up = False
+        self._is_heavy_lift_down = False
         self._is_conveyor_lift_up = False
+        self._is_conveyor_lift_down = False
 
     @property
     def background_empty_mid(self):
@@ -110,6 +117,66 @@ class Background:
         return self._trackpoint
 
     @property
+    def is_light_lift_up(self):
+        """Get is light lift up boolean value."""
+        return self._is_light_lift_up
+
+    @is_light_lift_up.setter
+    def is_light_lift_up(self, val):
+        """Set is light lift up boolean value."""
+        self._is_light_lift_up = val
+
+    @property
+    def is_light_lift_down(self):
+        """Get is light lift down boolean value."""
+        return self._is_light_lift_down
+
+    @is_light_lift_down.setter
+    def is_light_lift_down(self, val):
+        """Set is light lift down boolean value."""
+        self._is_light_lift_down = val
+
+    @property
+    def is_regular_lift_up(self):
+        """Get is regular lift up boolean value."""
+        return self._is_regular_lift_up
+
+    @is_regular_lift_up.setter
+    def is_regular_lift_up(self, val):
+        """Set is regular lift up boolean value."""
+        self._is_regular_lift_up = val
+
+    @property
+    def is_regular_lift_down(self):
+        """Get is regular lift down boolean value."""
+        return self._is_regular_lift_down
+
+    @is_regular_lift_down.setter
+    def is_regular_lift_down(self, val):
+        """Set is regular lift down boolean value."""
+        self._is_regular_lift_down = val
+
+    @property
+    def is_heavy_lift_up(self):
+        """Get is heavy lift up boolean value."""
+        return self._is_heavy_lift_up
+
+    @is_heavy_lift_up.setter
+    def is_heavy_lift_up(self, val):
+        """Set is heavy lift up boolean value."""
+        self._is_heavy_lift_up = val
+
+    @property
+    def is_heavy_lift_down(self):
+        """Get is heavy lift down boolean value."""
+        return self._is_heavy_lift_down
+
+    @is_heavy_lift_down.setter
+    def is_heavy_lift_down(self, val):
+        """Set is heavy lift down boolean value."""
+        self._is_heavy_lift_down = val
+
+    @property
     def is_conveyor_lift_up(self):
         """Get is conveyor lift up boolean value."""
         return self._is_conveyor_lift_up
@@ -118,6 +185,16 @@ class Background:
     def is_conveyor_lift_up(self, val):
         """Set is conveyor lift up boolean value."""
         self._is_conveyor_lift_up = val
+
+    @property
+    def is_conveyor_lift_down(self):
+        """Get is conveyor lift down boolean value."""
+        return self._is_conveyor_lift_down
+
+    @is_conveyor_lift_down.setter
+    def is_conveyor_lift_down(self, val):
+        """Set is conveyor lift down boolean value."""
+        self._is_conveyor_lift_down = val
 
     def __initialize_background_part(
             self, part, heading, goto_x, goto_y, shape, color, wid, len
@@ -672,6 +749,114 @@ class Background:
                 + const.BOX_PICKUP_POS_X:
             self.trackpoint_left = False
 
+    def light_lift_to_up(self):
+        """Move light lift up."""
+        __adjust_x = self.background_light.xcor()\
+                        + const.LIGHT_LIFT_POS_X
+        __adjust_y = self.light_lift.ycor()
+        # Stop at top position
+        if __adjust_y >= const.LIGHT_LIFT_MAX_Y:
+            self.is_light_lift_up = True
+            self.is_light_lift_down = False
+        else:
+            __adjust_y += const.LIGHT_LIFT_SPEED
+            self.light_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_light_lift_up = False
+            self.is_light_lift_down = False
+
+    def light_lift_to_down(self):
+        """Move light lift down."""
+        __adjust_x = self.background_light.xcor()\
+                        + const.LIGHT_LIFT_POS_X
+        __adjust_y = self.light_lift.ycor()
+        # Stop at down position
+        if __adjust_y <= const.LIGHT_LIFT_MIN_Y:
+            self.is_light_lift_up = False
+            self.is_light_lift_down = True
+        else:
+            __adjust_y -= const.LIGHT_LIFT_SPEED
+            self.light_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_light_lift_up = False
+            self.is_light_lift_down = False
+
+    def regular_lift_to_up(self):
+        """Move regular lift up."""
+        __adjust_x = self.background_regular.xcor()\
+                        + const.REGULAR_LIFT_POS_X
+        __adjust_y = self.regular_lift.ycor()
+        # Stop at top position
+        if __adjust_y >= const.REGULAR_LIFT_MAX_Y:
+            self.is_regular_lift_up = True
+            self.is_regular_lift_down = False
+        else:
+            __adjust_y += const.REGULAR_LIFT_SPEED
+            self.regular_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_regular_lift_up = False
+            self.is_regular_lift_down = False
+
+    def regular_lift_to_down(self):
+        """Move regular lift down."""
+        __adjust_x = self.background_regular.xcor()\
+                        + const.REGULAR_LIFT_POS_X
+        __adjust_y = self.regular_lift.ycor()
+        # Stop at down position
+        if __adjust_y <= const.REGULAR_LIFT_MIN_Y:
+            self.is_regular_lift_up = False
+            self.is_regular_lift_down = True
+        else:
+            __adjust_y -= const.REGULAR_LIFT_SPEED
+            self.regular_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_regular_lift_up = False
+            self.is_regular_lift_down = False
+
+    def heavy_lift_to_up(self):
+        """Move heavy lift up."""
+        __adjust_x = self.background_heavy.xcor()\
+                        + const.HEAVY_LIFT_POS_X
+        __adjust_y = self.heavy_lift.ycor()
+        # Stop at top position
+        if __adjust_y >= const.HEAVY_LIFT_MAX_Y:
+            self.is_heavy_lift_up = True
+            self.is_heavy_lift_down = False
+        else:
+            __adjust_y += const.HEAVY_LIFT_SPEED
+            self.heavy_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_heavy_lift_up = False
+            self.is_heavy_lift_down = False
+
+    def heavy_lift_to_down(self):
+        """Move heavy lift down."""
+        __adjust_x = self.background_heavy.xcor()\
+                        + const.HEAVY_LIFT_POS_X
+        __adjust_y = self.heavy_lift.ycor()
+        # Stop at down position
+        if __adjust_y <= const.HEAVY_LIFT_MIN_Y:
+            self.is_heavy_lift_up = False
+            self.is_heavy_lift_down = True
+        else:
+            __adjust_y -= const.HEAVY_LIFT_SPEED
+            self.heavy_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_heavy_lift_up = False
+            self.is_heavy_lift_down = False
+
     def conveyor_lift_to_up(self):
         """Move conveyor lift up."""
         __adjust_x = self.background_conveyor.xcor()\
@@ -680,9 +865,30 @@ class Background:
         # Stop at top position
         if __adjust_y >= const.CONVEYOR_LIFT_MAX_Y:
             self.is_conveyor_lift_up = True
+            self.is_conveyor_lift_down = False
         else:
             __adjust_y += const.CONVEYOR_LIFT_SPEED
             self.conveyor_lift.goto(
                 __adjust_x,
                 __adjust_y
             )
+            self.is_conveyor_lift_up = False
+            self.is_conveyor_lift_down = False
+
+    def conveyor_lift_to_down(self):
+        """Move conveyor lift down."""
+        __adjust_x = self.background_conveyor.xcor()\
+                        + const.CONVEYOR_LIFT_POS_X
+        __adjust_y = self.conveyor_lift.ycor()
+        # Stop at down position
+        if __adjust_y <= const.CONVEYOR_LIFT_MIN_Y:
+            self.is_conveyor_lift_up = False
+            self.is_conveyor_lift_down = True
+        else:
+            __adjust_y -= const.CONVEYOR_LIFT_SPEED
+            self.conveyor_lift.goto(
+                __adjust_x,
+                __adjust_y
+            )
+            self.is_conveyor_lift_up = False
+            self.is_conveyor_lift_down = False
