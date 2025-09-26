@@ -116,11 +116,14 @@ def box_type():
     """Store box type for further use."""
     x = const.CONST_X
     y = const.CONST_Y
-    if game.boxes[game.box_index].box.shapesize() == const.BOX_LIGHT_SHAPESIZE:
+    if game.boxes[game.box_index].box.shapesize() ==\
+            const.BOX_LIGHT_SHAPESIZE:
         game.box_shape = const.CONST_LIGHT
-    elif game.boxes[game.box_index].box.shapesize() == const.BOX_REGULAR_SHAPESIZE:
+    elif game.boxes[game.box_index].box.shapesize() ==\
+            const.BOX_REGULAR_SHAPESIZE:
         game.box_shape = const.CONST_REGULAR
-    elif game.boxes[game.box_index].box.shapesize() == const.BOX_HEAVY_SHAPESIZE:
+    elif game.boxes[game.box_index].box.shapesize() ==\
+            const.BOX_HEAVY_SHAPESIZE:
         game.box_shape = const.CONST_HEAVY
     game.box_carry_pos_x = game.box_carry_positions[game.box_shape][x]
     game.box_carry_pos_y = game.box_carry_positions[game.box_shape][y]
@@ -154,7 +157,10 @@ def run():
             if humanoid.move:
                 animate_humanoid_move()
 
-            if background.is_conveyor_lift_down and game.create_box and not game.carrying_box and not game.ready_pickup:
+            if background.is_conveyor_lift_down\
+                and game.create_box\
+                    and not game.carrying_box\
+                        and not game.ready_pickup:
                 if enter_factory():
                     create_crate()
 
@@ -197,7 +203,10 @@ def run():
             if game.carrying_box:
                 humanoid.hands_to_carry()
                 game.boxes[game.box_index].box.goto(
-                    game.box_carry_pos_x * direction_term(humanoid.left, humanoid.right),
+                    game.box_carry_pos_x * direction_term(
+                        humanoid.left,
+                        humanoid.right
+                    ),
                     game.box_carry_pos_y
                 )                
                 if game.box_shape == const.CONST_LIGHT:
@@ -213,7 +222,9 @@ def run():
                         game.box_in_regular_lift = True
                         game.regular_lift_up = True
                 if game.box_shape == const.CONST_HEAVY:
-                    if humanoid.humanoid_speed == humanoid.move_speed["fast"] or humanoid.humanoid_speed == humanoid.move_speed["normal"]:
+                    if humanoid.humanoid_speed == humanoid.move_speed["fast"]\
+                        or humanoid.humanoid_speed ==\
+                            humanoid.move_speed["normal"]:
                         slower_moving()
                     if background.heavy_lift.xcor() == 0:
                         game.carrying_box = False

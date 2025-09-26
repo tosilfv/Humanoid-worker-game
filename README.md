@@ -12,8 +12,8 @@ You control the humanoid that works in a factory.<br />
 
 ## Background
 
-Program is developed with VSCode and is written in Python language.<br />
-Install VSCode, python 3 and any required libraries.<br />
+Program is developed with VSCode and written in Python.<br />
+Install VSCode, python 3 and required libraries.<br />
 Run main.py in the src folder to start the program.<br />
 
 ## Instructions
@@ -35,7 +35,7 @@ Kollin voi noutaa käyttämällä nuolinäppäimiä vasemmalle ja oikealle.<br /
 Kuvaruutu jatkuu molempiin suuntiin loputtomasti ja kollin nosto<br />
 tapahtuu automaattisesti kuten myös alaslasku lähetyspisteelle.<br />
 Eri kokoiset kollit toimitetaan eri lastauslaitureille, joissa<br />
-hissi nostaa ne yläkertaan kuvaruudun ulkopuolelle.<br />
+toinen hissi nostaa ne yläkertaan kuvaruudun ulkopuolelle.<br />
 Suurempi kolli painaa enemmän ja hidastaa kävelyvauhtia.
 
 ## N.B.
@@ -63,3 +63,6 @@ _- Added box movement along x-axis._<br />
 
 **[0.0.14] - Sep 24. 2025:**<br />
 _- Completed game engine._<br />
+
+**[1.0.0] - Sep 25. 2025:**<br />
+_- Released the game._<br />

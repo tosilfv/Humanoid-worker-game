@@ -114,20 +114,6 @@ class Box:
             )
         self._box = self.__heavy_box
 
-    def update_box(self, goto_x, goto_y):
-        """Update the position of the box."""
-        __adjust_y = const.ADJUST_Y
-        if self.box.shapesize() == const.BOX_LIGHT_SHAPESIZE:
-            __adjust_y = const.LIGHT_BOX_POS_Y
-        elif self.box.shapesize() == const.BOX_REGULAR_SHAPESIZE:
-            __adjust_y = const.REGULAR_BOX_POS_Y
-        elif self.box.shapesize() == const.BOX_HEAVY_SHAPESIZE:
-            __adjust_y = const.HEAVY_BOX_POS_Y
-        self.box.goto(
-            goto_x,
-            goto_y + __adjust_y
-            )
-
     def box_to_left(self, pos, hum_to_right):
         """Move box left."""
         __adjust_x = self.box.xcor()

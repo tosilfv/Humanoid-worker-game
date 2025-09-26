@@ -15,23 +15,8 @@ class Background:
         self.__create_background_regular()
         self.__create_background_heavy()
         self.__create_background_conveyor()
-        self.light_lift_move = False
-        self.light_lift_up = False
-        self.light_lift_down = False
-        self.regular_lift_move = False
-        self.regular_lift_up = False
-        self.regular_lift_down = False
-        self.heavy_lift_move = False
-        self.heavy_lift_up = False
-        self.heavy_lift_down = False
-        self.conveyor_lift_move = True
-        self.conveyor_lift_up = True
-        self.conveyor_lift_down = False
-        self.left = True
-        self.right = False
-        self.trackpoint_left = False
-        self.box_is_hoisted = False
-        self.box_is_delivered = False
+        self._left = True
+        self._right = False
         self._is_light_lift_up = False
         self._is_light_lift_down = False
         self._is_regular_lift_up = False
@@ -40,6 +25,26 @@ class Background:
         self._is_heavy_lift_down = False
         self._is_conveyor_lift_up = False
         self._is_conveyor_lift_down = True
+
+    @property
+    def left(self):
+        """Get left boolean value."""
+        return self._left
+
+    @left.setter
+    def left(self, is_to_left):
+        """Set left boolean value."""
+        self._left = is_to_left
+
+    @property
+    def right(self):
+        """Get right boolean value."""
+        return self._right
+
+    @right.setter
+    def right(self, is_to_right):
+        """Set right boolean value."""
+        self._right = is_to_right
 
     @property
     def background_empty_mid(self):
@@ -477,24 +482,6 @@ class Background:
             const.CONVEYOR_TAIL_LEN
         )
 
-        # Trackpoint
-        self._trackpoint = turtle.Turtle()
-        self.__background_part.update(
-            {
-                const.TRACKPOINT_NAME: self._trackpoint
-            }
-        )
-        self.__initialize_background_part(
-            const.TRACKPOINT_NAME,
-            const.TRACKPOINT_HEADING,
-            const.TRACKPOINT_POS_X,
-            const.TRACKPOINT_POS_Y,
-            const.CIRCLE,
-            const.RED,
-            const.TRACKPOINT_WID,
-            const.TRACKPOINT_LEN
-        )
-
     def __to_positions(self):
         """Set the position for each background part."""
         __term = direction_term(self.left, self.right)
@@ -640,114 +627,6 @@ class Background:
             self.__to_rightmost_pos()
         else:
             self.__to_positions()
-
-    def update_light_lift(self):
-        """Update the position of the light lift."""
-        __adjust_y = self.light_lift.ycor()
-        if (self.light_lift_up or self.light_lift_down)\
-            and __adjust_y < const.LIGHT_LIFT_MAX_Y + 1:
-            __adjust_y +=\
-                const.LIGHT_LIFT_SPEED * direction_term(
-                    self.light_lift_down,
-                    self.light_lift_up
-                    )
-            self.light_lift.goto(
-                self.background_light.xcor() + const.LIGHT_LIFT_POS_X,
-                __adjust_y
-            )
-        if __adjust_y >= const.LIGHT_LIFT_MAX_Y:
-            self.light_lift_up = False
-            self.light_lift_down = True
-        if __adjust_y <= const.LIGHT_LIFT_MIN_Y:
-            self.light_lift_up = False
-            self.light_lift_down = False
-
-    def update_regular_lift(self):
-        """Update the position of the regular lift."""
-        __adjust_y = self.regular_lift.ycor()
-        if (self.regular_lift_up or self.regular_lift_down)\
-            and __adjust_y < const.REGULAR_LIFT_MAX_Y + 1:
-            __adjust_y +=\
-                const.REGULAR_LIFT_SPEED * direction_term(
-                    self.regular_lift_down,
-                    self.regular_lift_up
-                    )
-            self.regular_lift.goto(
-                self.background_regular.xcor() + const.REGULAR_LIFT_POS_X,
-                __adjust_y
-            )
-        if __adjust_y >= const.REGULAR_LIFT_MAX_Y:
-            self.regular_lift_up = False
-            self.regular_lift_down = True
-        if __adjust_y <= const.REGULAR_LIFT_MIN_Y:
-            self.regular_lift_up = False
-            self.regular_lift_down = False
-
-    def update_heavy_lift(self):
-        """Update the position of the heavy lift."""
-        __adjust_y = self.heavy_lift.ycor()
-        if (self.heavy_lift_up or self.heavy_lift_down)\
-            and __adjust_y < const.HEAVY_LIFT_MAX_Y + 1:
-            __adjust_y +=\
-                const.HEAVY_LIFT_SPEED * direction_term(
-                    self.heavy_lift_down,
-                    self.heavy_lift_up
-                    )
-            self.heavy_lift.goto(
-                self.background_heavy.xcor() + const.HEAVY_LIFT_POS_X,
-                __adjust_y
-            )
-        if __adjust_y >= const.HEAVY_LIFT_MAX_Y:
-            self.heavy_lift_up = False
-            self.heavy_lift_down = True
-        if __adjust_y <= const.HEAVY_LIFT_MIN_Y:
-            self.heavy_lift_up = False
-            self.heavy_lift_down = False
-
-    def update_conveyor_lift(self):
-        """Update the position of the conveyor lift."""
-        __adjust_y = self.conveyor_lift.ycor()
-        if (self.conveyor_lift_up or self.conveyor_lift_down)\
-            and __adjust_y < const.CONVEYOR_LIFT_MAX_Y + 1:
-            __adjust_y +=\
-                const.CONVEYOR_LIFT_SPEED * direction_term(
-                    self.conveyor_lift_down,
-                    self.conveyor_lift_up
-                    )
-            self.conveyor_lift.goto(
-                self.background_conveyor.xcor() + const.CONVEYOR_LIFT_POS_X,
-                __adjust_y
-            )
-        if __adjust_y >= const.CONVEYOR_LIFT_MAX_Y:
-            self.conveyor_lift_up = False
-            self.conveyor_lift_down = False
-            self.conveyor_lift_move = False
-        if __adjust_y <= const.CONVEYOR_LIFT_MIN_Y:
-            self.conveyor_lift_up = False
-            self.conveyor_lift_down = False
-
-    def update_trackpoint(self):
-        """Update the position of the trackpoint."""
-        self.trackpoint.goto(
-            self.conveyor_lift.xcor(),
-            self.conveyor_lift.ycor()
-            )
-
-    def trackpoint_to_left(self):
-        """Move the trackpoint to left."""
-        xcor = self.trackpoint.xcor()
-        xcor -= 1
-        self.trackpoint.goto(
-            xcor,
-            self.conveyor_lift.ycor()
-            )
-
-    def stop_at_pickup(self):
-        """Stop trackpoint at box pick up position."""
-        if self.trackpoint.xcor() <=\
-            self.background_conveyor.xcor() + const.CONVEYOR_LIFT_POS_X\
-                + const.BOX_PICKUP_POS_X:
-            self.trackpoint_left = False
 
     def light_lift_to_up(self):
         """Move light lift up."""
