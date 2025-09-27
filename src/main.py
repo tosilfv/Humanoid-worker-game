@@ -6,9 +6,9 @@ from components.background import Background
 from components.surface import Surface
 from components.humanoid import Humanoid
 from components.box import Box
+from utils import constants as const
 from utils.helpers import direction_term
 from utils.helpers import print_message
-import utils.constants as const
 
 screen = turtle.Screen()
 screen.setup(const.SCREEN_WID, const.SCREEN_HGT)
@@ -309,8 +309,8 @@ def run():
             time.sleep(humanoid.humanoid_speed)
             screen.update()
 
-    except Exception as e:
-        print(e)
+    except Exception:
+        pass
 
 if __name__ == "__main__":
     game = Game()

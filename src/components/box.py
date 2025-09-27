@@ -1,7 +1,7 @@
 import turtle
-import utils.constants as const
-from utils.helpers import direction_term
 from random import choice
+from utils import constants as const
+from utils.helpers import direction_term
 
 class Box:
     """The box humanoid carries around."""

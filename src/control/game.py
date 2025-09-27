@@ -1,4 +1,4 @@
-import utils.constants as const
+from utils import constants as const
 
 class Game:
     """Controls of the game."""

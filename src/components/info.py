@@ -1,5 +1,5 @@
 import turtle
-import utils.constants as const
+from utils import constants as const
 
 class Info:
     """The information text to show humanoid controls."""
