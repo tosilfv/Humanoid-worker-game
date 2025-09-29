@@ -66,3 +66,6 @@ _- Completed game engine._<br />
 
 **[1.0.0] - Sep 25. 2025:**<br />
 _- Released the game._<br />
+
+**[1.0.1] - Sep 29. 2025:**<br />
+_- Game documentation # 1 and minor style refactoring._<br />
