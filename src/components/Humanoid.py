@@ -7,7 +7,6 @@ from utils.helpers import direction_term
 class Humanoid:
     """An animated humanoid using turtle graphics."""
 
-
     def __init__(self):
         """Initialize the humanoid components."""
         self.__body_part = {}

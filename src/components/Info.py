@@ -5,7 +5,6 @@ from utils import constants as const
 class Info:
     """The information text to show humanoid controls."""
 
-
     def __init__(self):
         """Initialize the info components."""
         self.__create_info_text()

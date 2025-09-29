@@ -7,7 +7,6 @@ from utils.helpers import direction_term
 class Box:
     """The box humanoid carries around."""
 
-
     def __init__(self):
         """Initialize the box components."""
         self.__box_part = {}

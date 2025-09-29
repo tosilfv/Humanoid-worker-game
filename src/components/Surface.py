@@ -5,7 +5,6 @@ from utils import constants as const
 class Surface:
     """The surface humanoid walks on top of."""
 
-
     def __init__(self):
         """Initialize the surface components."""
         self.__create_surface()

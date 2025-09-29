@@ -4,7 +4,6 @@ from utils import constants as const
 class Game:
     """Controls of the game."""
 
-
     def __init__(self):
         """Initialize the game control variables."""
         self._box_carry_positions = {
