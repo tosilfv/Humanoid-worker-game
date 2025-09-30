@@ -1,6 +1,5 @@
 import turtle
-from utils import constants as const
-from utils.helpers import direction_term
+from utils import constants as const, direction_term
 
 
 class Background:

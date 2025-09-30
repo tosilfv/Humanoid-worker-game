@@ -1,14 +1,8 @@
 import turtle
 import time
-from control.Game import Game
-from components.Info import Info
-from components.Background import Background
-from components.Surface import Surface
-from components.Humanoid import Humanoid
-from components.Box import Box
-from utils import constants as const
-from utils.helpers import direction_term
-from utils.helpers import print_message
+from control import Game
+from components import Info, Background, Surface, Humanoid, Box
+from utils import constants as const, direction_term, print_message
 
 
 class UserInterface:
@@ -158,7 +152,7 @@ class UserInterface:
         self.game.create_box = False
         self.game.created_box = True
 
-    def crate_on_conveyor_lift(self):
+    def crate_on_conveyor_lift(self): 
         """Crate is on the conveyor lift."""
         self.game.boxes[self.game.box_index].box.goto(
             self.background.conveyor_lift.xcor(),
