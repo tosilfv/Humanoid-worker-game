@@ -43,6 +43,11 @@ Suurempi kolli painaa enemmän ja hidastaa kävelyvauhtia.
 'humanoid_speed' will change to "slow" when set to "default".<br />
 Call Humanoid create_measurement_grid() to show grid.<br />
 
+## Testing
+
+You can run unit tests from the root directory in the terminal with:<br />
+python -m unittest discover
+
 ## Changelog
 
 **[0.0.9] - Sep 10. 2025:**<br />
@@ -68,4 +73,7 @@ _- Completed game engine._<br />
 _- Released the game._<br />
 
 **[1.0.1] - Sep 29. 2025:**<br />
-_- Game documentation # 1 and minor style refactoring._<br />
+_- Game documentation #1 and minor style refactoring._<br />
+
+**[1.0.2] - Sep 30. 2025:**<br />
+_- Game documentation #2 and unit tests._<br />
