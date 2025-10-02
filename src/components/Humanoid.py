@@ -9,7 +9,7 @@ class Humanoid:
     def __init__(self):
         """Initialize the humanoid components."""
         self.__body_part = {}
-        self.move_speed = {
+        self._move_speed = {
             "default": const.DEFAULT,
             "slow": const.SLOW,
             "normal": const.NORMAL,
@@ -30,7 +30,7 @@ class Humanoid:
         self.__right_thigh_heading = const.THIGH_HEADING
         self.__right_thigh_extended = True
         self.__right_thigh_retracted = False
-        self._humanoid_speed = self.move_speed["default"]
+        self._humanoid_speed = self._move_speed["default"]
         self._move = False
         self._left = False
         self._right = True
@@ -44,6 +44,46 @@ class Humanoid:
         if self.left:
             return const.CARRY_LEFT_FOREARM_HEADING
         return const.CARRY_RIGHT_FOREARM_HEADING
+
+    @property
+    def body_part(self):
+        """Get body part value."""
+        return self.__body_part
+
+    @property
+    def move_speed(self):
+        """Get move speed value."""
+        return self._move_speed
+
+    @property
+    def left_thigh_heading(self):
+        """Get left thigh heading value."""
+        return self.__left_thigh_heading
+
+    @property
+    def left_thigh_extended(self):
+        """Get left thigh extended value."""
+        return self.__left_thigh_extended
+
+    @property
+    def left_thigh_retracted(self):
+        """Get left thigh retracted value."""
+        return self.__left_thigh_retracted
+
+    @property
+    def right_thigh_heading(self):
+        """Get right thigh heading value."""
+        return self.__right_thigh_heading
+
+    @property
+    def right_thigh_extended(self):
+        """Get right thigh extended value."""
+        return self.__right_thigh_extended
+
+    @property
+    def right_thigh_retracted(self):
+        """Get right thigh retracted value."""
+        return self.__right_thigh_retracted
 
     @property
     def humanoid_speed(self):

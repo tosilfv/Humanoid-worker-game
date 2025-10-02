@@ -40,17 +40,24 @@ Suurempi kolli painaa enemmän ja hidastaa kävelyvauhtia.
 
 ## N.B.
 
-'humanoid_speed' will change to "slow" when set to "default".<br />
+Running all tests at once might take a few minutes to complete.<br />
 Call Humanoid create_measurement_grid() to show grid.<br />
+'humanoid_speed' will change to "slow" when set to "default".<br />
 
 ## Testing
 
-You can run unit tests from src folder in the terminal with:<br />
-python -m unittest .\tests\test_box.py
-python -m unittest .\tests\test_constants.py
-python -m unittest .\tests\test_helpers.py
-python -m unittest .\tests\test_info.py
-python -m unittest .\tests\test_surface.py
+You can run individual unit tests from src folder in the terminal with:<br />
+python -m unittest .\test\test_background.py<br />
+python -m unittest .\test\test_box.py<br />
+python -m unittest .\test\test_constants.py<br />
+python -m unittest .\test\test_game.py<br />
+python -m unittest .\test\test_helpers.py<br />
+python -m unittest .\test\test_humanoid.py<br />
+python -m unittest .\test\test_info.py<br />
+python -m unittest .\test\test_surface.py<br />
+
+Or all at once from src folder with:
+python -m unittest
 
 ## Changelog
 
@@ -74,10 +81,13 @@ _- Added box movement along x-axis._<br />
 _- Completed game engine._<br />
 
 **[1.0.0] - Sep 25. 2025:**<br />
-_- Released the game._<br />
+_- Initial release._<br />
 
 **[1.0.1] - Sep 29. 2025:**<br />
-_- Game documentation #1 and minor style refactoring._<br />
+_- Replaced Initial release with patched version._<br />
 
 **[1.0.2] - Sep 30. 2025:**<br />
-_- Game documentation #2 and unit tests._<br />
+_- Game documentation and unit tests._<br />
+
+**[1.0.3] - Oct 2. 2025:**<br />
+_- Released the game._<br />

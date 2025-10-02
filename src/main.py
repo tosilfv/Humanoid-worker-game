@@ -1,4 +1,5 @@
 import turtle
+import tkinter as tk
 import time
 from control import Game
 from components import Info, Background, Surface, Humanoid, Box
@@ -328,6 +329,9 @@ class UserInterface:
     
                 time.sleep(self.humanoid.humanoid_speed)
                 self.screen.update()
+
+        except tk.TclError:
+            pass
 
         except Exception as e:
             print_message(e)

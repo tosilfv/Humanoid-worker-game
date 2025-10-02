@@ -22,6 +22,16 @@ class Box:
         return self._box
 
     @property
+    def box_part(self):
+        """Get box part value."""
+        return self.__box_part
+
+    @property
+    def boxes(self):
+        """Get boxes value."""
+        return self.__boxes
+
+    @property
     def is_box_pickup(self):
         """Get is box pick up boolean value."""
         return self._is_box_pickup

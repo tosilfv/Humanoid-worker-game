@@ -27,6 +27,11 @@ class Background:
         self._is_conveyor_lift_down = True
 
     @property
+    def background_part(self):
+        """Get background part value."""
+        return self.__background_part
+
+    @property
     def left(self):
         """Get left boolean value."""
         return self._left
