@@ -9,6 +9,11 @@ class Info:
         """Initialize the info components."""
         self.__create_info_text()
 
+    @property
+    def create_info_text(self):
+        """Get __info turtle object."""
+        return self.__info
+
     def __create_info_text(self):
         """Creates info text."""
         self.__info = turtle.Turtle()

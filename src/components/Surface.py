@@ -9,6 +9,11 @@ class Surface:
         """Initialize the surface components."""
         self.__create_surface()
 
+    @property
+    def create_surface(self):
+        """Get __surface turtle object."""
+        return self.__surface
+
     def __create_surface(self):
         """Creates surface."""
         self.__surface = turtle.Turtle()

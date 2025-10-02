@@ -26,6 +26,36 @@ class Box:
         """Get is box pick up boolean value."""
         return self._is_box_pickup
 
+    @property
+    def create_light_box(self):
+        """Get __create_light_box method."""
+        return self.__create_light_box
+
+    @property
+    def light_box(self):
+        """Get __light_box turtle object."""
+        return self.__light_box
+
+    @property
+    def create_regular_box(self):
+        """Get __create_regular_box method."""
+        return self.__create_regular_box
+
+    @property
+    def regular_box(self):
+        """Get __regular_box turtle object."""
+        return self.__regular_box
+
+    @property
+    def create_heavy_box(self):
+        """Get __create_heavy_box method."""
+        return self.__create_heavy_box
+
+    @property
+    def heavy_box(self):
+        """Get __heavy_box turtle object."""
+        return self.__heavy_box
+
     @is_box_pickup.setter
     def is_box_pickup(self, val):
         """Set is box pick up boolean value."""

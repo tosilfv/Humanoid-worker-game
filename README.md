@@ -45,8 +45,12 @@ Call Humanoid create_measurement_grid() to show grid.<br />
 
 ## Testing
 
-You can run unit tests from the root directory in the terminal with:<br />
-python -m unittest discover
+You can run unit tests from src folder in the terminal with:<br />
+python -m unittest .\tests\test_box.py
+python -m unittest .\tests\test_constants.py
+python -m unittest .\tests\test_helpers.py
+python -m unittest .\tests\test_info.py
+python -m unittest .\tests\test_surface.py
 
 ## Changelog
 
